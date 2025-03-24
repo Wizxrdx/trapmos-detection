@@ -1,6 +1,5 @@
 import cv2
 from src.yoloDet import YoloTRT
-import time
 
 # Initialize YOLO model
 model = YoloTRT(
@@ -19,43 +18,35 @@ if frame is None:
     print(f"Failed to load image: {image_path}")
     exit()
 
+detections, t = model.Inference(frame)
 
-test_time = []
-for x in range(10):
-    start_time = time.time()
+print(f"Number of detections: {len(detections)}")
 
-    # Run inference
-    detections, _ = model.Inference(frame)
-    
-    detections, t = model.Inference(frame)
+if detections:
+    for detection in detections:
+        if 'class' in detection:
+            mosquito_classes = ['Culex', 'Aedes albopictus', 'Aedes aegypti']
+            if detection['class'] in mosquito_classes:
 
-    print(f"Number of detections: {len(detections)}")
+                if 'bbox' in detection:
+                    x, y, w, h = detection['bbox']
+                elif 'box' in detection:
+                    x, y, w, h = detection['box']
+                else:
+                    continue
 
-    if detections:
-        for detection in detections:
-            if 'class' in detection:
-                mosquito_classes = ['Aedes Mosquito', 'Aedes Mosquito']
-                if detection['class'] in mosquito_classes:
+                scale_x = frame.shape[1] / frame.shape[1]
+                scale_y = frame.shape[0] / frame.shape[0]
 
-                    if 'bbox' in detection:
-                        x, y, w, h = detection['bbox']
-                    elif 'box' in detection:
-                        x, y, w, h = detection['box']
-                    else:
-                        continue
+                x1 = max(0, int(x * scale_x))
+                y1 = max(0, int(y * scale_y))
+                x2 = min(frame.shape[1], int((x + w) * scale_x))
+                y2 = min(frame.shape[0], int((y + h) * scale_y))
 
-                    scale_x = frame.shape[1] / frame.shape[1]
-                    scale_y = frame.shape[0] / frame.shape[0]
-
-                    x1 = max(0, int(x * scale_x))
-                    y1 = max(0, int(y * scale_y))
-                    x2 = min(frame.shape[1], int((x + w) * scale_x))
-                    y2 = min(frame.shape[0], int((y + h) * scale_y))
-
-                    cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 3)
-                    cv2.putText(frame, f"{detection['class']}",
-                                (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX,
-                                0.8, (0, 255, 0), 2)
-                    
-                    image_filename = f"detection_test.jpg"
-                    cv2.imwrite(image_filename, frame)
+                cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 3)
+                cv2.putText(frame, f"{detection['class']}",
+                            (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX,
+                            0.8, (0, 255, 0), 2)
+                
+                image_filename = f"detection_test.jpg"
+                cv2.imwrite(image_filename, frame)
