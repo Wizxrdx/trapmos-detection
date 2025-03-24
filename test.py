@@ -1,5 +1,5 @@
 import cv2
-from yoloDet import YoloTRT
+from src.yoloDet import YoloTRT
 import time
 
 # Initialize YOLO model
