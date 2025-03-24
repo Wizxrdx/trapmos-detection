@@ -1,1 +1,2 @@
 yolov7/build/
+*.pt

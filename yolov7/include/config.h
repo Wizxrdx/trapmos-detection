@@ -23,7 +23,7 @@ const static int kInputW = 640;
 
 // Maximum number of output bounding boxes from yololayer plugin.
 // That is maximum number of output bounding boxes before NMS.
-const static int kMaxNumOutputBbox = 1000;
+const static int kMaxNumOutputBbox = 100;
 
 const static int kNumAnchor = 3;
 
