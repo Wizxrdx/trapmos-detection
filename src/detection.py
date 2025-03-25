@@ -1,9 +1,17 @@
 import cv2
 import imutils
+import time
 from datetime import datetime
 from src.yoloDet import YoloTRT
 from src.location import LocationManager
+from src.firebase import Firebase
 
+
+def scale_coords(coords, orig_shape, small_shape):
+    x1, y1, x2, y2 = coords
+    scale_x = orig_shape[1] / small_shape[1]
+    scale_y = orig_shape[0] / small_shape[0]
+    return int(x1 * scale_x), int(y1 * scale_y), int(x2 * scale_x), int(y2 * scale_y)
 
 def run_detection(dev_mode):
     # Initialize YOLO model
@@ -17,11 +25,23 @@ def run_detection(dev_mode):
     # Initialize location manager
     location_manager = LocationManager()
 
-    # Open the camera
-    cap = cv2.VideoCapture(0, cv2.CAP_V4L2)
+    # Initialize Database manager
+    database_manager = Firebase()
+
+    # Keep checking until a camera is connected
+    while True:
+        cap = cv2.VideoCapture(0, cv2.CAP_V4L2)
+        if cap.isOpened():
+            print("Camera connected!")
+            break
+        else:
+            print("Camera not connected. Retrying in 5 seconds...")
+            time.sleep(5)
+    
     cap.set(cv2.CAP_PROP_FPS, 60)
     frame_counter = 0
     skip_frames = 1  # Process every frame
+    max_mosquito_counter = 0
 
     while True:
         ret, frame = cap.read()
@@ -33,39 +53,43 @@ def run_detection(dev_mode):
 
         if frame_counter % skip_frames == 0:
             detections, t = model.Inference(small_frame)
-
-            print(f"Number of detections: {len(detections)}")
             fps = round(1 / t, 2)
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-            cv2.putText(frame, f"FPS: {fps}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 1)
-            cv2.putText(frame, f"Time: {current_time}", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 1)
 
             if detections:
+                lat, lon = location_manager.current_location()
+                current_time = datetime.now()
+                processed_detections = []
+                    
                 for detection in detections:
-                    if 'class' in detection:
-                        mosquito_classes = ["Culex quinquefasciatus", "Aedes albopictus", "Aedes Aegypti"]
-                        if detection['class'] in mosquito_classes:
-                            lat, lon = location_manager.current_location()
+                    if detection['class'] in ["Aedes aegypti", "Aedes albopictus"]:
+                        # Draw bounding box
+                        x1, y1, x2, y2 = scale_coords(detection['box'], frame.shape, small_frame.shape)
+                        cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 1)
+                        # add fps
+                        cv2.putText(frame, f"FPS: {fps}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 0.5)
+                        # add to processed detections
+                        processed_detections.append({
+                            "class": detection['class'],
+                            "confidence": detection['confidence'],
+                            "box": [x1, y1, x2, y2]
+                        })
 
-                            # Draw bounding box
-                            x1, y1, x2, y2 = detection['box']
+                # send to firebase if it exceeds the max mosquito counter
+                if len(processed_detections) > max_mosquito_counter:
+                    print(f"Detected mosquito at {lat}, {lon} at {current_time.strftime("%Y-%m-%d %H:%M:%S")}. Uploading to Firebase...")
+                    max_mosquito_counter = len(processed_detections)
+                    
+                    # Encode image as JPEG
+                    _, buffer = cv2.imencode(".jpg", frame)
 
-                            # ratio to scale the bounding box
-                            scale_x = frame.shape[1] / small_frame.shape[1]
-                            scale_y = frame.shape[0] / small_frame.shape[0]
-
-                            # Scale the coordinates
-                            x1 = int(x1 * scale_x)
-                            y1 = int(y1 * scale_y)
-                            x2 = int(x2 * scale_x)
-                            y2 = int(y2 * scale_y)
-                            
-                            # print the location
-                            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 1)
-                            # or
-                            # send to firebase
-                            # firebase.send()
+                    # Convert to bytes
+                    image_bytes = buffer.tobytes()
+                    database_manager.schedule_for_upload(image_bytes, {
+                        "timestamp": current_time,
+                        "latitude": lat,
+                        "longitude": lon,
+                        "detections": processed_detections
+                    })
 
         frame_counter += 1
 
@@ -80,3 +104,4 @@ def run_detection(dev_mode):
     cap.release()
     cv2.destroyAllWindows()
     location_manager.close()
+    database_manager.wait_for_completion()
