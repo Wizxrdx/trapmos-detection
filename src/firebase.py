@@ -4,7 +4,7 @@ import aiohttp
 from google.auth.transport.requests import Request
 from google.oauth2 import service_account
 
-import app
+from app import DEVICE_NAME, DEVICE_ID
 
 class DetectionUploader:
     def __init__(self):
