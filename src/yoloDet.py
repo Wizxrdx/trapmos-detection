@@ -23,7 +23,7 @@ class YoloTRT():
         self.LEN_ALL_RESULT = 601
         self.LEN_ONE_RESULT = 38
         self.yolo_version = yolo_ver
-        self.categories = ["Culex quinquefasciatus", "Aedes albopictus", "Aedes Aegypti"]
+        self.categories = ["Culex quinquefasciatus", "Aedes albopictus", "Aedes aegypti"]
         TRT_LOGGER = trt.Logger(trt.Logger.INFO)
 
         ctypes.CDLL(library)
