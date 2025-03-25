@@ -76,7 +76,7 @@ def run_detection(dev_mode):
 
                 # send to firebase if it exceeds the max mosquito counter
                 if len(processed_detections) > max_mosquito_counter:
-                    print(f"Detected mosquito at {lat}, {lon} at {current_time.strftime("%Y-%m-%d %H:%M:%S")}. Uploading to Firebase...")
+                    print(f"Detected mosquito at {lat}, {lon} at {current_time.strftime('%Y-%m-%d %H:%M:%S')}. Uploading to Firebase...")
                     max_mosquito_counter = len(processed_detections)
                     
                     # Encode image as JPEG
