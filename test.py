@@ -3,7 +3,7 @@ import imutils
 from datetime import datetime
 from src.yoloDet import YoloTRT
 from src.location import LocationManager
-from src.firebase import Firebase
+from src.firebase import DetectionUploader
 
 
 def scale_coords(coords, orig_shape, small_shape):
@@ -21,7 +21,7 @@ def run_detection(image_path):
         yolo_ver="v7"
     )
     location_manager = LocationManager()
-    database_manager = Firebase()
+    database_manager = DetectionUploader()
 
     # Load the image
     frame = cv2.imread(image_path)

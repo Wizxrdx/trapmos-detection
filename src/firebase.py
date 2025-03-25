@@ -6,7 +6,7 @@ from google.oauth2 import service_account
 
 import app
 
-class Firebase:
+class DetectionUploader:
     def __init__(self):
         self.__SERVICE_ACCOUNT_FILE = "trapmosCredentials.json"
         self.__BUCKET_NAME = "finaltrapmos.firebasestorage.app"
@@ -85,6 +85,6 @@ class Firebase:
         data["firebase_path"] = f"{app.DEVICE_NAME}/{timestamp}_{lat}_{lon}_{unique_id}.jpg"
 
 if __name__ == "__main__":
-    firebase = Firebase()
+    firebase = DetectionUploader()
     firebase.schedule_for_upload("yolov7/images/mosquito.jpg", {"testing": "testing"}, "testing/test.jpg")
     firebase.wait_for_completion()

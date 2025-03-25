@@ -4,7 +4,7 @@ import time
 from datetime import datetime
 from src.yoloDet import YoloTRT
 from src.location import LocationManager
-from src.firebase import Firebase
+from src.firebase import DetectionUploader
 
 
 def scale_coords(coords, orig_shape, small_shape):
@@ -26,7 +26,7 @@ def run_detection(dev_mode):
     location_manager = LocationManager()
 
     # Initialize Database manager
-    database_manager = Firebase()
+    database_manager = DetectionUploader()
 
     # Keep checking until a camera is connected
     while True:
