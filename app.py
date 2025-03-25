@@ -1,6 +1,8 @@
 import argparse
 from src.detection import run_detection
 
+DEVICE_NAME = "TRAPMOS_000"
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-dev", action="store_true", help="Run in development mode")
