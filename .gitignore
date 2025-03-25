@@ -1,2 +1,7 @@
 yolov7/build/
 *.pt
+trapmosCredentials.json
+venv/
+db_admin.py
+bucket/
+*.pyc
