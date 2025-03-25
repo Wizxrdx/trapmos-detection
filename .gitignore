@@ -5,3 +5,4 @@ venv/
 db_admin.py
 bucket/
 *.pyc
+__pycache__/
