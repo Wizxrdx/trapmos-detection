@@ -58,7 +58,6 @@ def run_detection(image_path):
                 "longitude": lon,
                 "detections": processed_detections
             })
-            database_manager
 
     # Always display the image
     cv2.imshow("Output", frame)
