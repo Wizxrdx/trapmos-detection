@@ -70,16 +70,15 @@ def run_detection(dev_mode):
                 processed_detections = []
                     
                 for detection in detections:
-                    if detection['class'] in ["Aedes aegypti", "Aedes albopictus"]:
-                        # Draw bounding box
-                        x1, y1, x2, y2 = detection['box']
-                        cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 1)
-                        # add to processed detections
-                        processed_detections.append({
-                            "class": detection['class'],
-                            "confidence": detection['conf'],
-                            "box": [x1, y1, x2, y2]
-                        })
+                    # Draw bounding box
+                    x1, y1, x2, y2 = detection['box']
+                    cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 1)
+                    # add to processed detections
+                    processed_detections.append({
+                        "class": "Aedes Mosquito",
+                        "confidence": detection['conf'],
+                        "box": [x1, y1, x2, y2]
+                    })
 
                 if dev_mode: print("Processed Detections: ", len(processed_detections))
 
