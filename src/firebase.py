@@ -6,7 +6,9 @@ from google.auth.transport.requests import Request
 from google.oauth2 import service_account
 from datetime import datetime, timezone
 
-from app import DEVICE_NAME, DEVICE_ID
+# from app import DEVICE_NAME, DEVICE_ID
+DEVICE_ID = "00000"
+DEVICE_NAME = f"TRAPMOS_{DEVICE_ID}"
 
 class DetectionUploader:
     def __init__(self):
@@ -139,6 +141,8 @@ class DetectionUploader:
         }
 
 if __name__ == "__main__":
+    import cv2
+    
     data = {
         "timestamp": datetime.now(),
         "latitude": 14.1234,
@@ -158,5 +162,6 @@ if __name__ == "__main__":
     }
 
     firebase = DetectionUploader()
-    firebase.schedule_for_upload("yolov7/images/mosquito.jpg", data)
+    frame = cv2.imread("yolov7/images/mosquito.jpg")
+    firebase.schedule_for_upload(frame, data)
     firebase.wait_for_completion()
