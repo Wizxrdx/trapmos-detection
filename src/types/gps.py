@@ -14,7 +14,7 @@ class GPSLocation:
         self.__running = True
         print("GPS connected.")
 
-        self.__thread = threading.Thread(target=self.__run_loop)
+        self.__thread = threading.Thread(target=self.__run)
         self.__thread.start()
 
     def __run(self):
