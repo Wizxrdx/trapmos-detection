@@ -156,6 +156,7 @@ if __name__ == "__main__":
             }
         ]
     }
+
     firebase = DetectionUploader()
     firebase.schedule_for_upload("yolov7/images/mosquito.jpg", data)
     firebase.wait_for_completion()
