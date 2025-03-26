@@ -52,6 +52,7 @@ class DetectionUploader:
                 except asyncio.TimeoutError:
                     pass  # Prevents blocking if the queue is empty
                 except:
+                    print(data)
                     print("⚠️ Error uploading image")
 
     async def __upload_to_firebase(self, session, image, data, firebase_path):
@@ -126,12 +127,12 @@ class DetectionUploader:
             "mapValue": {
                 "fields": {
                     "class": { "stringValue": detection["class"] },
-                    "confidence": { "doubleValue": detection["confidence"] },
+                    "confidence": { "doubleValue": float(detection["confidence"]) },
                     "box": { "arrayValue": { "values": [
-                        { "doubleValue": detection["box"][0] },
-                        { "doubleValue": detection["box"][1] },
-                        { "doubleValue": detection["box"][2] },
-                        { "doubleValue": detection["box"][3] }
+                        { "doubleValue": float(detection["box"][0]) },
+                        { "doubleValue": float(detection["box"][1]) },
+                        { "doubleValue": float(detection["box"][2]) },
+                        { "doubleValue": float(detection["box"][3]) }
                     ] } }
                 }
             }
@@ -144,8 +145,8 @@ class DetectionUploader:
                 "device": { "stringValue": DEVICE_NAME },
                 "file": { "stringValue": file_name },
                 "timestamp": { "timestampValue": timestamp },
-                "latitude": { "doubleValue": data["latitude"] },
-                "longitude": { "doubleValue": data["longitude"] },
+                "latitude": { "doubleValue": float(data["latitude"]) },
+                "longitude": { "doubleValue": float(data["longitude"]) },
                 "detections": { "arrayValue": { "values": detections } }
             }
         }
