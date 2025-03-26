@@ -10,6 +10,7 @@ class WIFILocation:
         self.__manager = manager
 
         # Start WIFI thread
+        self.__running = True
         self.__thread = threading.Thread(target=self.__run, daemon=True)
         self.__thread.start()
 
