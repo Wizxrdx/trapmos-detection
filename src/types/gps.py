@@ -8,6 +8,8 @@ class GPSLocation:
             baudrate=9600,
             timeout=0.5
         )
+        print("GPS connected.")
+        return self
 
     def can_get_location(self):
         raw_data = self.__read_gps()
@@ -32,7 +34,7 @@ class GPSLocation:
 
                 print(f'https://www.openstreetmap.org/search?query={dec_lon}%2C{dec_lat}')
 
-                return dec_lat, dec_lon
+                return (dec_lat, dec_lon)
 
     def close(self):
         self.__gps.close()
