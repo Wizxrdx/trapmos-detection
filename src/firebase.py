@@ -168,5 +168,5 @@ if __name__ == "__main__":
 
     # Convert to bytes
     image_bytes = buffer.tobytes()
-    firebase.schedule_for_upload(frame, image_bytes)
+    firebase.schedule_for_upload(image_bytes, data)
     firebase.wait_for_completion()
