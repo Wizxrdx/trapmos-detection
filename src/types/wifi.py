@@ -24,7 +24,5 @@ class WIFILocation:
             time.sleep(10)
 
     def current_location(self):
-        if self.can_get_location():
-            lat, lon = self.__wifi.latlng
-            return (lat, lon)
-        return (None, None)
+        lat, lon = self.__wifi.latlng
+        return (lat, lon)
