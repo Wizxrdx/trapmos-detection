@@ -163,5 +163,10 @@ if __name__ == "__main__":
 
     firebase = DetectionUploader()
     frame = cv2.imread("yolov7/images/mosquito.jpg")
-    firebase.schedule_for_upload(frame, data)
+    # Encode image as JPEG
+    _, buffer = cv2.imencode(".jpg", frame)
+
+    # Convert to bytes
+    image_bytes = buffer.tobytes()
+    firebase.schedule_for_upload(frame, image_bytes)
     firebase.wait_for_completion()
