@@ -6,7 +6,6 @@ class LocationManager():
     def __init__(self):
         self.gps = GPSLocation()
         self.wifi = WIFILocation()
-        return self
 
     def current_location(self):
         if self.gps.can_get_location():
