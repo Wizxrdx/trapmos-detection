@@ -4,9 +4,10 @@ import threading
 import time
 
 class WIFILocation:
-    def __init__(self):
+    def __init__(self, manager):
         self.__wifi = geocoder.ip('me')
         print("WIFI connected.")
+        self.__manager = manager
 
         # Start WIFI thread
         self.__thread = threading.Thread(target=self.__run, daemon=True)
