@@ -23,9 +23,11 @@ def run_detection(dev_mode):
     )
 
     # Initialize location manager
+    print("Initializing location manager...")
     location_manager = LocationManager()
 
     # Initialize Database manager
+    print("Initializing Detection Uploader...")
     database_manager = DetectionUploader()
 
     # Keep checking until a camera is connected
@@ -49,15 +51,14 @@ def run_detection(dev_mode):
             print("Failed to grab frame")
             break
 
-        small_frame = imutils.resize(frame, width=640)
         if dev_mode: print("Max Mosquito Counter: ", max_mosquito_counter)
 
         if frame_counter % skip_frames == 0:
-            detections, t = model.Inference(small_frame)
+            detections, t = model.Inference(frame)
             fps = round(1 / t, 2)
 
             # add fps
-            cv2.putText(frame, f"FPS: {fps}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 0.5)
+            cv2.putText(frame, f"FPS: {fps}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 1)
 
             if dev_mode: print("Detections:", len(detections))
             if detections:
@@ -68,7 +69,7 @@ def run_detection(dev_mode):
                 for detection in detections:
                     if detection['class'] in ["Aedes aegypti", "Aedes albopictus"]:
                         # Draw bounding box
-                        x1, y1, x2, y2 = scale_coords(detection['box'], frame.shape, small_frame.shape)
+                        x1, y1, x2, y2 = detection['box']
                         cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 1)
                         # add to processed detections
                         processed_detections.append({

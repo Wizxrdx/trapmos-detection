@@ -42,10 +42,10 @@ def run_detection(image_path):
             if detection['class'] in ["Aedes aegypti", "Aedes albopictus"]:
                 x1, y1, x2, y2 = scale_coords(detection['box'], frame.shape, small_frame.shape)
                 cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 1)
-                cv2.putText(frame, f"FPS: {fps}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 0.5)
+                cv2.putText(frame, f"FPS: {fps}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 1)
                 processed_detections.append({
                     "class": detection['class'],
-                    "confidence": detection['confidence'],
+                    "confidence": detection['conf'],
                     "box": [x1, y1, x2, y2]
                 })
 
@@ -58,6 +58,7 @@ def run_detection(image_path):
                 "longitude": lon,
                 "detections": processed_detections
             })
+            database_manager
 
     # Always display the image
     cv2.imshow("Output", frame)

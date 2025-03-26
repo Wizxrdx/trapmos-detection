@@ -1,5 +1,6 @@
 import json
 import asyncio
+import threading
 import uuid
 import aiohttp
 from google.auth.transport.requests import Request
@@ -31,10 +32,17 @@ class DetectionUploader:
         self.__loop = asyncio.get_event_loop()
         self.__running = True
         self.__task = self.__loop.create_task(self.__worker())
+        self.__thread = threading.Thread(target=self.__run_loop)
+        self.__thread.start()
 
+    def __run_loop(self):
+        asyncio.set_event_loop(self.__loop)
+        self.__loop.run_forever()
+        
     async def __worker(self):
         """Background task that handles uploads."""
         async with aiohttp.ClientSession() as session:
+            print("🚀 Uploader started")
             while self.__running:
                 try:
                     image, data, firebase_path = await asyncio.wait_for(self.__queue.get(), timeout=1.0)
@@ -43,6 +51,8 @@ class DetectionUploader:
                         self.__queue.task_done()
                 except asyncio.TimeoutError:
                     pass  # Prevents blocking if the queue is empty
+                except:
+                    print("⚠️ Error uploading image")
 
     async def __upload_to_firebase(self, session, image, data, firebase_path):
         """Uploads an image to Firebase Storage via REST API asynchronously."""

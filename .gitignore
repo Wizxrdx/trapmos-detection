@@ -6,3 +6,4 @@ db_admin.py
 bucket/
 *.pyc
 __pycache__/
+Camera.jpg
