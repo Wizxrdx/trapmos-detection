@@ -101,8 +101,8 @@ class YoloTRT():
             det["class"] = self.categories[int(result_classid[j])]
             det["conf"] = result_scores[j]
             det["box"] = box
-            det_res.append(det)
             if result_classid != 0:
+                det_res.append(det)
                 self.PlotBbox(box, img, label="{}:{:.2f}".format(self.categories[int(result_classid[j])], result_scores[j]),)
         return det_res, t2-t1
 
