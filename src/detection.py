@@ -50,11 +50,16 @@ def run_detection(dev_mode):
             break
 
         small_frame = imutils.resize(frame, width=640)
+        if dev_mode: print("Max Mosquito Counter: ", max_mosquito_counter)
 
         if frame_counter % skip_frames == 0:
             detections, t = model.Inference(small_frame)
             fps = round(1 / t, 2)
 
+            # add fps
+            cv2.putText(frame, f"FPS: {fps}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 0.5)
+
+            if dev_mode: print("Detections:", len(detections))
             if detections:
                 lat, lon = location_manager.current_location()
                 current_time = datetime.now()
@@ -65,18 +70,18 @@ def run_detection(dev_mode):
                         # Draw bounding box
                         x1, y1, x2, y2 = scale_coords(detection['box'], frame.shape, small_frame.shape)
                         cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 1)
-                        # add fps
-                        cv2.putText(frame, f"FPS: {fps}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 0.5)
                         # add to processed detections
                         processed_detections.append({
                             "class": detection['class'],
-                            "confidence": detection['confidence'],
+                            "confidence": detection['conf'],
                             "box": [x1, y1, x2, y2]
                         })
 
+                if dev_mode: print("Processed Detections: ", len(processed_detections))
+
                 # send to firebase if it exceeds the max mosquito counter
                 if len(processed_detections) > max_mosquito_counter:
-                    print(f"Detected mosquito at {lat}, {lon} at {current_time.strftime('%Y-%m-%d %H:%M:%S')}. Uploading to Firebase...")
+                    if dev_mode: print(f"Detected mosquito at {lat}, {lon} at {current_time.strftime('%Y-%m-%d %H:%M:%S')}. Uploading to Firebase...")
                     max_mosquito_counter = len(processed_detections)
                     
                     # Encode image as JPEG
