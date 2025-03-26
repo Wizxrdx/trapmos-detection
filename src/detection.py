@@ -43,8 +43,8 @@ def run_detection(dev_mode):
     cap.set(cv2.CAP_PROP_FPS, 60)
     cap.set(cv2.CAP_PROP_AUTOFOCUS, 0)
     cap.set(cv2.CAP_PROP_FOCUS, 200)
-    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1472)
-    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 2560)
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 2560)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1472)
 
     frame_counter = 0
     skip_frames = 1  # Process every frame
