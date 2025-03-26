@@ -9,7 +9,6 @@ class GPSLocation:
             timeout=0.5
         )
         print("GPS connected.")
-        return self
 
     def can_get_location(self):
         raw_data = self.__read_gps()

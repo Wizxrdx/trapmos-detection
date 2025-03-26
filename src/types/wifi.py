@@ -5,7 +5,6 @@ class WIFILocation:
     def __init__(self):
         self.__wifi = geocoder.ip('me')
         print("WIFI connected.")
-        return self
 
     def can_get_location(self):
         return self.__wifi.ok
