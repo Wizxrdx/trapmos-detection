@@ -23,7 +23,7 @@ class YoloTRT():
         self.LEN_ALL_RESULT = 601
         self.LEN_ONE_RESULT = 38
         self.yolo_version = yolo_ver
-        self.categories = ["Culex quinquefasciatus", "Aedes albopictus", "Aedes aegypti"]
+        self.categories = ["Culex quinquefasciatus", "Aedes Mosquito", "Aedes Mosquito"]
         TRT_LOGGER = trt.Logger(trt.Logger.INFO)
 
         ctypes.CDLL(library)
@@ -102,7 +102,8 @@ class YoloTRT():
             det["conf"] = result_scores[j]
             det["box"] = box
             det_res.append(det)
-            self.PlotBbox(box, img, label="{}:{:.2f}".format(self.categories[int(result_classid[j])], result_scores[j]),)
+            if result_classid != 0:
+                self.PlotBbox(box, img, label="{}:{:.2f}".format(self.categories[int(result_classid[j])], result_scores[j]),)
         return det_res, t2-t1
 
     def PostProcess(self, output, origin_h, origin_w):
