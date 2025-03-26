@@ -41,6 +41,9 @@ def run_detection(dev_mode):
             time.sleep(5)
     
     cap.set(cv2.CAP_PROP_FPS, 60)
+    cap.set(cv2.CAP_PROP_AUTOFOCUS, 0)
+    cap.set(cv2.CAP_PROP_FOCUS, 200)
+
     frame_counter = 0
     skip_frames = 1  # Process every frame
     max_mosquito_counter = 0
