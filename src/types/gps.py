@@ -54,6 +54,8 @@ class GPSLocation:
         for line in data:
             if line.find('GGA') > 0:
                 msg = pynmea2.parse(line)
+                if msg.lat is '' or msg.lon is '':
+                    return None
                 return {
                     'timestamp': msg.timestamp,
                     'latitude': msg.lat,
