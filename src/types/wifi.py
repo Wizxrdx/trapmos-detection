@@ -15,8 +15,8 @@ class WIFILocation:
         self.__thread.start()
 
     def __run(self):
+        print("WIFI location is now running.")
         while self.__running:
-            print("WIFI location is now running.")
             location = self.current_location()
             if location:
                 lat, lon = location

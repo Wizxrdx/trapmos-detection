@@ -18,8 +18,8 @@ class GPSLocation:
         self.__thread.start()
 
     def __run(self):
+        print("GPS is now running.")
         while self.__running:
-            print("GPS is now running.")
             lat, lon = self.__get_location()
             if lat is not None:
                 self.__manager.set_gps_location(lat, lon)
