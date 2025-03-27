@@ -14,7 +14,7 @@
 const static char* kInputTensorName = "data";
 const static char* kOutputTensorName = "prob";
 
-const static int kNumClass = 80;
+const static int kNumClass = 3;
 const static int kBatchSize = 1;
 
 // Yolo's input width and height must by divisible by 32
@@ -36,8 +36,8 @@ const static float kIgnoreThresh = 0.1f;
  * --------------------------------------------------------*/
 
 // NMS overlapping thresh and final detection confidence thresh
-const static float kNmsThresh = 0.45f;
-const static float kConfThresh = 0.5f;
+const static float kNmsThresh = 0.6f;
+const static float kConfThresh = 0.6f;
 
 const static int kGpuId = 0;
 
