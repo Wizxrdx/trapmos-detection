@@ -7,9 +7,7 @@ from google.auth.transport.requests import Request
 from google.oauth2 import service_account
 from datetime import datetime, timezone
 
-# from app import DEVICE_NAME, DEVICE_ID
-DEVICE_ID = "00000"
-DEVICE_NAME = f"TRAPMOS_{DEVICE_ID}"
+from app import DEVICE_NAME, DEVICE_ID
 
 class DetectionUploader:
     def __init__(self):
@@ -38,7 +36,7 @@ class DetectionUploader:
     def __run_loop(self):
         asyncio.set_event_loop(self.__loop)
         self.__loop.run_forever()
-        
+
     async def __worker(self):
         """Background task that handles uploads."""
         async with aiohttp.ClientSession() as session:
@@ -73,7 +71,7 @@ class DetectionUploader:
                 else:
                     print("❌ Upload failed:", await response.text())
                     return False
-            
+
             headers = {
                 "Authorization": f"Bearer {self.__access_token}",
                 "Content-Type": "application/json",
@@ -105,7 +103,7 @@ class DetectionUploader:
     def shutdown(self):
         """Properly stops the background worker task."""
         self.__running = False
-    
+
     def wait_for_completion(self):
         """Blocks until all uploads are done."""
         loop = asyncio.get_event_loop()
@@ -120,7 +118,7 @@ class DetectionUploader:
         lon = round(data["longitude"], 4)
         unique_id = uuid.uuid4().hex[:12]
         return f"{DEVICE_NAME}/{DEVICE_ID}_{timestamp}_{lat}_{lon}_{unique_id}.jpg"
-    
+
     def __to_firestore_json(self, data, file_name):
         """Converts the data to Firestore JSON format."""
         detections = [{
@@ -153,7 +151,7 @@ class DetectionUploader:
 
 if __name__ == "__main__":
     import cv2
-    
+
     data = {
         "timestamp": datetime.now(),
         "latitude": 14.1234,
@@ -180,4 +178,3 @@ if __name__ == "__main__":
     # Convert to bytes
     image_bytes = buffer.tobytes()
     firebase.schedule_for_upload(image_bytes, data)
-    firebase.wait_for_completion()

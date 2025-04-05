@@ -1,11 +1,17 @@
 import cv2
-import imutils
 import time
 from datetime import datetime
 from src.yoloDet import YoloTRT
 from src.location import LocationManager
 from src.firebase import DetectionUploader
+import numpy as np
 
+
+def sharpen_image(image):
+    kernel = np.array([[0, -2, 0],
+                       [-2, 9, -2],
+                       [0, -2, 0]])
+    return cv2.filter2D(image, -1, kernel)
 
 def scale_coords(coords, orig_shape, small_shape):
     x1, y1, x2, y2 = coords
@@ -18,7 +24,7 @@ def run_detection(dev_mode):
     model = YoloTRT(
         library="yolov7/build/libmyplugins.so",
         engine="yolov7/build/yolov7-tiny.engine",
-        conf=0.6,
+        conf=0.65,
         yolo_ver="v7"
     )
 
@@ -35,16 +41,17 @@ def run_detection(dev_mode):
         cap = cv2.VideoCapture(0, cv2.CAP_V4L2)
         if cap.isOpened():
             print("Camera connected!")
+            time.sleep(5)
             break
         else:
             print("Camera not connected. Retrying in 5 seconds...")
             time.sleep(5)
-    
-    cap.set(cv2.CAP_PROP_FPS, 60)
+
+    cap.set(cv2.CAP_PROP_FPS, 5)
     cap.set(cv2.CAP_PROP_AUTOFOCUS, 0)
     cap.set(cv2.CAP_PROP_FOCUS, 200)
-    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 2560)
-    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1472)
+    cap.set(cv2.CAP_PROP_EXPOSURE, -6)
+    cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*"MJPG"))
 
     frame_counter = 0
     skip_frames = 1  # Process every frame
@@ -59,7 +66,8 @@ def run_detection(dev_mode):
         if dev_mode: print("Max Mosquito Counter: ", max_mosquito_counter)
 
         if frame_counter % skip_frames == 0:
-            detections, t = model.Inference(frame)
+            sharp_frame = sharpen_image(frame)
+            detections, t = model.Inference(sharp_frame)
             fps = round(1 / t, 2)
 
             # add fps
@@ -70,11 +78,13 @@ def run_detection(dev_mode):
                 lat, lon = location_manager.current_location()
                 current_time = datetime.now()
                 processed_detections = []
-                    
+
                 for detection in detections:
                     # Draw bounding box
-                    x1, y1, x2, y2 = detection['box']
+                    x1, y1, x2, y2 = scale_coords(detection['box'], frame.shape, sharp_frame.shape)
+
                     cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 1)
+                    cv2.putText(frame, f"{detection['class']} - {detection['conf']:.2f}", (x1, y1+1), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 1)
                     # add to processed detections
                     processed_detections.append({
                         "class": "Aedes Mosquito",
@@ -88,7 +98,7 @@ def run_detection(dev_mode):
                 if len(processed_detections) > max_mosquito_counter:
                     if dev_mode: print(f"Detected mosquito at {lat}, {lon} at {current_time.strftime('%Y-%m-%d %H:%M:%S')}. Uploading to Firebase...")
                     max_mosquito_counter = len(processed_detections)
-                    
+
                     # Encode image as JPEG
                     _, buffer = cv2.imencode(".jpg", frame)
 
