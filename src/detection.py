@@ -63,7 +63,7 @@ def run_detection(dev_mode):
             print("Failed to grab frame")
             break
 
-        if dev_mode: print("Max Mosquito Counter: ", max_mosquito_counter)
+        print("Max Mosquito Counter: ", max_mosquito_counter)
 
         if frame_counter % skip_frames == 0:
             sharp_frame = sharpen_image(frame)
@@ -73,7 +73,7 @@ def run_detection(dev_mode):
             # add fps
             cv2.putText(frame, f"FPS: {fps}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 1)
 
-            if dev_mode: print("Detections:", len(detections))
+            print("Detections:", len(detections))
             if detections:
                 lat, lon = location_manager.current_location()
                 current_time = datetime.now()
@@ -92,11 +92,11 @@ def run_detection(dev_mode):
                         "box": [x1, y1, x2, y2]
                     })
 
-                if dev_mode: print("Processed Detections: ", len(processed_detections))
+                print("Processed Detections: ", len(processed_detections))
 
                 # send to firebase if it exceeds the max mosquito counter
                 if len(processed_detections) > max_mosquito_counter:
-                    if dev_mode: print(f"Detected mosquito at {lat}, {lon} at {current_time.strftime('%Y-%m-%d %H:%M:%S')}. Uploading to Firebase...")
+                    print(f"Detected mosquito at {lat}, {lon} at {current_time.strftime('%Y-%m-%d %H:%M:%S')}. Uploading to Firebase...")
                     max_mosquito_counter = len(processed_detections)
 
                     # Encode image as JPEG
