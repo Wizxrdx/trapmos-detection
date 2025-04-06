@@ -1,8 +1,6 @@
 import argparse
 from src.detection import run_detection
 
-DEVICE_ID = "00000"
-DEVICE_NAME = f"TRAPMOS_{DEVICE_ID}"
 
 def main():
     parser = argparse.ArgumentParser()
