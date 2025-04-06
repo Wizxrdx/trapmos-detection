@@ -24,7 +24,7 @@ def run_detection(dev_mode):
     model = YoloTRT(
         library="yolov7/build/libmyplugins.so",
         engine="yolov7/build/yolov7-tiny.engine",
-        conf=0.65,
+        conf=0.7,
         yolo_ver="v7"
     )
 
