@@ -12,4 +12,4 @@ cmake ..
 make 
 
 # Run the compiled YOLOv7 model
-sudo ./yolov7 -s yolov7-tiny.wts yolov7-tiny.engine
+sudo ./yolov7 -s yolov7-tiny.wts yolov7-tiny.engine t
