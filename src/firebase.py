@@ -7,7 +7,8 @@ from google.auth.transport.requests import Request
 from google.oauth2 import service_account
 from datetime import datetime, timezone
 
-from app import DEVICE_NAME, DEVICE_ID
+DEVICE_ID = "00000"
+DEVICE_NAME = f"TRAPMOS_{DEVICE_ID}"
 
 class DetectionUploader:
     def __init__(self):
