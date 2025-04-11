@@ -54,8 +54,7 @@ class TrapmosDisplay(threading.Thread):
         trapmos_y = self.height - trapmos_bbox[3] + 5
         self.draw.text((trapmos_x, trapmos_y), self.message, font=self.title_font, fill=255)
 
-    def _draw_message(self):
-        message = self.message
+    def _draw_message(self, message):
         self.draw.rectangle((0, 0, self.width, self.height), outline=0, fill=0)
 
         if isinstance(message, dict):
@@ -88,7 +87,6 @@ class TrapmosDisplay(threading.Thread):
             x = (self.width - w) // 2
             self.draw.text((x, y), line, font=self.text_font, fill=255)
             y += h
-
 
     def show_detected(self, count, fps):
         self.message = {"detected": count, "fps": fps}
