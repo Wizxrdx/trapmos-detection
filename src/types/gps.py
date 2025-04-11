@@ -6,7 +6,7 @@ import threading
 class GPSLocation:
     def __init__(self, manager):
         self.__gps = serial.Serial(
-            port='/dev/ttyTHS1',
+            port='/dev/ttyAMA0',
             baudrate=9600,
             timeout=0.5
         )
@@ -44,6 +44,7 @@ class GPSLocation:
         return (None, None)
 
     def close(self):
+        self.__running = False
         self.__gps.close()
 
     def __read_gps(self):

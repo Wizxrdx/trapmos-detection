@@ -1,7 +1,7 @@
 import cv2
 import time
 from datetime import datetime
-from src.yoloDet import YoloTRT
+from src.yoloDet import YoloONNX
 from src.location import LocationManager
 from src.firebase import DetectionUploader
 import numpy as np
@@ -21,7 +21,7 @@ def scale_coords(coords, orig_shape, small_shape):
 
 def run_detection(dev_mode):
     # Initialize YOLO model
-    model = YoloTRT(
+    model = YoloONNX(
         library="yolov7/build/libmyplugins.so",
         engine="yolov7/build/yolov7-tiny.engine",
         conf=0.7,
