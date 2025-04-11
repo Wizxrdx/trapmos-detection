@@ -25,12 +25,17 @@ class YoloONNX:
         return image, img, h, w
 
     def postprocess(self, outputs, orig_h, orig_w):
+        outputs = outputs[0]
+
+        if outputs.ndim == 1:
+            outputs = np.expand_dims(outputs, axis=0)
+
         if outputs.shape[0] == 0:
             return []
-    
+
         boxes, scores, class_ids = [], [], []
 
-        for det in outputs[0]:
+        for det in outputs:
             if det[4] < self.conf_thres:
                 continue
             conf = det[4] * det[5]
@@ -48,7 +53,7 @@ class YoloONNX:
         indices = cv2.dnn.NMSBoxes(boxes, scores, self.conf_thres, self.iou_thres)
         results = []
         for i in indices:
-            i = i[0]
+            i = i[0] if isinstance(i, (list, tuple, np.ndarray)) else i
             result = {
                 "class": self.categories[class_ids[i]],
                 "conf": scores[i],
@@ -56,6 +61,7 @@ class YoloONNX:
             }
             results.append(result)
         return results
+
 
     def draw_boxes(self, img, detections):
         for det in detections:
