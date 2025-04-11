@@ -62,7 +62,9 @@ class TrapmosDisplay(threading.Thread):
         line = ""
         for word in words:
             test_line = f"{line} {word}".strip()
-            w, _ = self.draw.textsize(test_line, font=self.team_font)
+            bbox = self.draw.textbbox((0, 0), test_line, font=self.team_font)
+            w = bbox[2] - bbox[0]
+            
             if w <= max_width:
                 line = test_line
             else:
