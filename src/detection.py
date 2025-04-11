@@ -7,7 +7,7 @@ from src.yoloDet import YoloONNX
 from src.location import LocationManager
 from src.firebase import DetectionUploader
 from src.oled import TrapmosDisplay
-from app import TIME_STARTED
+import app.TIME_STARTED
 
 
 def sharpen_image(image):
@@ -65,7 +65,7 @@ def run_detection(dev_mode, oled=None):
             image_to_upload = None
             image_to_upload_if_no_detected = None
 
-            while TIME_STARTED > int(time.time() - 1640000000):
+            while app.TIME_STARTED > int(time.time() - 1640000000):
                 ret, frame = cap.read()
                 if not ret:
                     print("Failed to grab frame")
@@ -142,7 +142,7 @@ def run_detection(dev_mode, oled=None):
                     if cv2.waitKey(1) == ord('q'):
                         break
         
-            TIME_STARTED = int(time.time()) - 1640000000 + (60 * 29)
+            app.TIME_STARTED = int(time.time()) - 1640000000 + (60 * 29)
 
             ## upload here
             if max_mosquito_counter > 0:
@@ -163,12 +163,12 @@ def run_detection(dev_mode, oled=None):
                                 "detections": image_to_upload_if_no_detected["detections"]
                             }, False)
         
-            while TIME_STARTED > int(time.time() - 1640000000):
+            while app.TIME_STARTED > int(time.time() - 1640000000):
                 print("Sleeping for 29 minutes...")
                 TrapmosDisplay().sleep()
                 time.sleep(5)
             
-            TIME_STARTED = int(time.time()) - 1640000000 + 60
+            app.TIME_STARTED = int(time.time()) - 1640000000 + 60
 
     except KeyboardInterrupt:
         cap.release()
