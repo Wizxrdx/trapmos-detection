@@ -93,7 +93,7 @@ class TrapmosDisplay(threading.Thread):
         self.message = {"detected": count, "fps": fps}
 
     def show_message(self, msg):
-        self.message = msg
+        self.message += "\n" + msg
 
     def stop(self):
         self.message = "Shutting down..."

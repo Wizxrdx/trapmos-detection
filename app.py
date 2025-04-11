@@ -1,7 +1,10 @@
 import argparse
+from datetime import datetime
+import time
 
 DEVICE_ID = "00000"
 DEVICE_NAME = f"TRAPMOS_{DEVICE_ID}"
+TIME_STARTED = int(time.time()) - 1640000000 + 60
 
 def main():
     from src.detection import run_detection
