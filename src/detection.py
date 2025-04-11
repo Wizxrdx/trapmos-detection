@@ -7,7 +7,7 @@ from src.yoloDet import YoloONNX
 from src.location import LocationManager
 from src.firebase import DetectionUploader
 from src.oled import TrapmosDisplay
-import app.TIME_STARTED
+import app
 
 
 def sharpen_image(image):
