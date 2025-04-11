@@ -70,7 +70,6 @@ class YoloONNX:
         input_tensor, original_img, h, w = self.preprocess(img)
         start = time.time()
         outputs = self.session.run(None, {self.input_name: input_tensor})[0]
-        print("ONNX output shape:", outputs.shape)
         inference_time = time.time() - start
         detections = self.postprocess(outputs, h, w)
         self.draw_boxes(original_img, detections)
