@@ -22,8 +22,9 @@ class TrapmosDisplay(threading.Thread):
         self.height = self.disp.height
         self.image = Image.new('1', (self.width, self.height))
         self.draw = ImageDraw.Draw(self.image)
-        self.team_font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 12)
-        self.trapmos_font = ImageFont.truetype('/home/trapmos/trapmos.otf', 20)
+        self.subtitle_font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 12)
+        self.text_font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 8)
+        self.title_font = ImageFont.truetype('/home/trapmos/trapmos.otf', 20)
         self.message = "TRAPMOS"
         self.running = True
         self._initialized = True
@@ -41,27 +42,47 @@ class TrapmosDisplay(threading.Thread):
 
     def _draw_startup(self):
         team_text = "TEAM 40"
-        team_bbox = self.draw.textbbox((0, 0), team_text, font=self.team_font)
+        team_bbox = self.draw.textbbox((0, 0), team_text, font=self.subtitle_font)
         team_width = team_bbox[2] - team_bbox[0]
         team_x = (self.width - team_width) // 2
         team_y = 10
-        self.draw.text((team_x, team_y), team_text, font=self.team_font, fill=255)
+        self.draw.text((team_x, team_y), team_text, font=self.subtitle_font, fill=255)
 
-        trapmos_bbox = self.draw.textbbox((0, 0), self.message, font=self.trapmos_font)
+        trapmos_bbox = self.draw.textbbox((0, 0), self.message, font=self.title_font)
         trapmos_width = trapmos_bbox[2] - trapmos_bbox[0]
         trapmos_x = (self.width - trapmos_width) // 2
         trapmos_y = self.height - trapmos_bbox[3] + 5
-        self.draw.text((trapmos_x, trapmos_y), self.message, font=self.trapmos_font, fill=255)
+        self.draw.text((trapmos_x, trapmos_y), self.message, font=self.title_font, fill=255)
 
     def _draw_message(self, text):
-        msg_bbox = self.draw.textbbox((0, 0), text, font=self.team_font)
-        msg_width = msg_bbox[2] - msg_bbox[0]
-        msg_x = (self.width - msg_width) // 2
-        msg_y = (self.height - msg_bbox[3]) // 2
-        self.draw.text((msg_x, msg_y), text, font=self.team_font, fill=255)
+        self.draw.rectangle((0, 0, self.width, self.height), outline=0, fill=0)
+        max_width = self.width
+        lines = []
+        words = text.split()
+        line = ""
+        for word in words:
+            test_line = f"{line} {word}".strip()
+            w, _ = self.draw.textsize(test_line, font=self.team_font)
+            if w <= max_width:
+                line = test_line
+            else:
+                lines.append(line)
+                line = word
+        lines.append(line)
+
+        total_height = sum(self.draw.textbbox((0, 0), l, font=self.team_font)[3] for l in lines)
+        y = (self.height - total_height) // 2
+
+        for line in lines:
+            w, h = self.draw.textsize(line, font=self.team_font)
+            x = (self.width - w) // 2
+            self.draw.text((x, y), line, font=self.team_font, fill=255)
+            y += h
 
     def show_detected(self, msg):
         self.message = msg
 
     def stop(self):
+        self.message = "Shutting down..."
+        time.sleep(2)
         self.running = False

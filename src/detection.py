@@ -118,8 +118,9 @@ def run_detection(dev_mode, oled=None):
 
             if cv2.waitKey(1) == ord('q'):
                 break
-
+    
     cap.release()
     cv2.destroyAllWindows()
     location_manager.close()
     database_manager.wait_for_completion()
+    TrapmosDisplay().stop()
