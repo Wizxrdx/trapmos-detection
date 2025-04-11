@@ -62,7 +62,6 @@ class YoloONNX:
             results.append(result)
         return results
 
-
     def draw_boxes(self, img, detections):
         for det in detections:
             x1, y1, x2, y2 = det['box']
@@ -75,7 +74,7 @@ class YoloONNX:
     def infer(self, img):
         input_tensor, original_img, h, w = self.preprocess(img)
         start = time.time()
-        outputs = self.session.run(None, {self.input_name: input_tensor})[0]
+        outputs = self.session.run(None, {self.input_name: input_tensor})
         inference_time = time.time() - start
         detections = self.postprocess(outputs, h, w)
         self.draw_boxes(original_img, detections)
