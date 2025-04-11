@@ -21,12 +21,7 @@ def scale_coords(coords, orig_shape, small_shape):
 
 def run_detection(dev_mode):
     # Initialize YOLO model
-    model = YoloONNX(
-        library="yolov7/build/libmyplugins.so",
-        engine="yolov7/build/yolov7-tiny.engine",
-        conf=0.7,
-        yolo_ver="v7"
-    )
+    model = YoloONNX("trapmos.onnx", conf_thres=0.25)
 
     # Initialize location manager
     print("Initializing location manager...")
@@ -67,7 +62,7 @@ def run_detection(dev_mode):
 
         if frame_counter % skip_frames == 0:
             sharp_frame = sharpen_image(frame)
-            detections, t = model.Inference(sharp_frame)
+            detections, t = model.infer(sharp_frame)
             fps = round(1 / t, 2)
 
             # add fps

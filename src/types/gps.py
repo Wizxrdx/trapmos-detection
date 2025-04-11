@@ -28,6 +28,7 @@ class GPSLocation:
     def __get_location(self):
         raw_data = self.__read_gps()
         parsed_data = self.__parse_data(raw_data)
+        print('parsing data...')
         if parsed_data is not None:
             print(parsed_data)
             gga_lon = float(parsed_data['longitude'])
@@ -38,7 +39,7 @@ class GPSLocation:
             dec_lon = self.__gga_to_decimal(gga_lon, gga_lon_dir)
             dec_lat = self.__gga_to_decimal(gga_lat, gga_lat_dir)
 
-            print(f'https://www.openstreetmap.org/search?query={dec_lon}%2C{dec_lat}')
+            print(f'Location: https://www.openstreetmap.org/search?query={dec_lon}%2C{dec_lat}')
 
             return (dec_lat, dec_lon)
         return (None, None)
