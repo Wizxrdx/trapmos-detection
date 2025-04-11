@@ -62,9 +62,9 @@ class TrapmosDisplay(threading.Thread):
         line = ""
         for word in words:
             test_line = f"{line} {word}".strip()
-            bbox = self.draw.textbbox((0, 0), test_line, font=self.team_font)
+            bbox = self.draw.textbbox((0, 0), test_line, font=self.text_font)
             w = bbox[2] - bbox[0]
-            
+
             if w <= max_width:
                 line = test_line
             else:
@@ -72,15 +72,15 @@ class TrapmosDisplay(threading.Thread):
                 line = word
         lines.append(line)
 
-        total_height = sum(self.draw.textbbox((0, 0), l, font=self.team_font)[3] for l in lines)
+        total_height = sum(self.draw.textbbox((0, 0), l, font=self.text_font)[3] for l in lines)
         y = (self.height - total_height) // 2
 
         for line in lines:
-            bbox = self.draw.textbbox((0, 0), test_line, font=self.team_font)
+            bbox = self.draw.textbbox((0, 0), test_line, font=self.text_font)
             w = bbox[2] - bbox[0]
             h = bbox[3] - bbox[1]
             x = (self.width - w) // 2
-            self.draw.text((x, y), line, font=self.team_font, fill=255)
+            self.draw.text((x, y), line, font=self.text_font, fill=255)
             y += h
 
     def show_detected(self, msg):
