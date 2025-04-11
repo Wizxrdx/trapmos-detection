@@ -63,6 +63,7 @@ def run_detection(dev_mode, oled=None):
             break
 
         print("Max Mosquito Counter: ", max_mosquito_counter)
+        TrapmosDisplay().show_detected("Mosquito Detected: " + str(max_mosquito_counter))
 
         if frame_counter % skip_frames == 0:
             sharp_frame = sharpen_image(frame)
