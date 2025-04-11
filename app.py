@@ -4,7 +4,7 @@ import time
 
 DEVICE_ID = "00000"
 DEVICE_NAME = f"TRAPMOS_{DEVICE_ID}"
-TIME_STARTED = int(time.time()) - 1640000000 + 60
+TIME_STARTED = int(time.time()) - 1640000000 + 300
 
 def main():
     from src.detection import run_detection

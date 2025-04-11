@@ -142,7 +142,7 @@ def run_detection(dev_mode, oled=None):
                     if cv2.waitKey(1) == ord('q'):
                         break
         
-            app.TIME_STARTED = int(time.time()) - 1640000000 + (60 * 29)
+            app.TIME_STARTED = int(time.time()) - 1640000000 + (60 * 25)
 
             ## upload here
             if max_mosquito_counter > 0:
@@ -168,7 +168,7 @@ def run_detection(dev_mode, oled=None):
                 TrapmosDisplay().sleep()
                 time.sleep(5)
             
-            app.TIME_STARTED = int(time.time()) - 1640000000 + 60
+            app.TIME_STARTED = int(time.time()) - 1640000000 + 300
 
     except KeyboardInterrupt:
         cap.release()
