@@ -73,7 +73,7 @@ def run_detection(dev_mode, oled=None):
 
             # add fps
             cv2.putText(frame, f"FPS: {fps}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 1)
-            TrapmosDisplay().show_message("Mosquito Detected: " + str(max_mosquito_counter) + "\n" + "FPS: {fps}")
+            TrapmosDisplay().show_detected(max_mosquito_counter, fps)
 
             if detections:
                 lat, lon = location_manager.current_location()
