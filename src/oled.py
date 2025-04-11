@@ -3,7 +3,7 @@ import threading
 from luma.core.interface.serial import i2c
 from luma.oled.device import sh1106
 from PIL import Image, ImageDraw, ImageFont
-import utils
+import src.utils as utils
 
 class TrapmosDisplay(threading.Thread):
     _instance = None
@@ -94,6 +94,9 @@ class TrapmosDisplay(threading.Thread):
 
     def show_message(self, msg):
         self.message += "\n" + msg
+
+    def sleep(self):
+        self.message = "Sleeping..."
 
     def stop(self):
         self.message = "Shutting down..."
