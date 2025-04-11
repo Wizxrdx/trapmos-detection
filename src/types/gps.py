@@ -28,7 +28,6 @@ class GPSLocation:
     def __get_location(self):
         raw_data = self.__read_gps()
         parsed_data = self.__parse_data(raw_data)
-        print('parsing data...')
         if parsed_data is not None:
             print(parsed_data)
             gga_lon = float(parsed_data['longitude'])

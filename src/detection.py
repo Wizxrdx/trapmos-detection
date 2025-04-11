@@ -4,6 +4,7 @@ from datetime import datetime
 from src.yoloDet import YoloONNX
 from src.location import LocationManager
 from src.firebase import DetectionUploader
+from oled import TrapmosDisplay
 import numpy as np
 
 
@@ -19,7 +20,7 @@ def scale_coords(coords, orig_shape, small_shape):
     scale_y = orig_shape[0] / small_shape[0]
     return int(x1 * scale_x), int(y1 * scale_y), int(x2 * scale_x), int(y2 * scale_y)
 
-def run_detection(dev_mode):
+def run_detection(dev_mode, oled=None):
     # Initialize YOLO model
     model = YoloONNX("trapmos.onnx", conf_thres=0.25)
 
@@ -30,6 +31,9 @@ def run_detection(dev_mode):
     # Initialize Database manager
     print("Initializing Detection Uploader...")
     database_manager = DetectionUploader()
+
+    print("Initializing Trapmos Display...")
+    TrapmosDisplay().show_detected("Initializing Trapmos Display...")
 
     # Keep checking until a camera is connected
     while True:
@@ -68,7 +72,6 @@ def run_detection(dev_mode):
             # add fps
             cv2.putText(frame, f"FPS: {fps}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 1)
 
-            print("Detections:", len(detections))
             if detections:
                 lat, lon = location_manager.current_location()
                 current_time = datetime.now()
