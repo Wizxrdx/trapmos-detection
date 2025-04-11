@@ -74,7 +74,9 @@ class TrapmosDisplay(threading.Thread):
         y = (self.height - total_height) // 2
 
         for line in lines:
-            w, h = self.draw.textsize(line, font=self.team_font)
+            bbox = self.draw.textbbox((0, 0), test_line, font=self.team_font)
+            w = bbox[2] - bbox[0]
+            h = bbox[3] - bbox[1]
             x = (self.width - w) // 2
             self.draw.text((x, y), line, font=self.team_font, fill=255)
             y += h
