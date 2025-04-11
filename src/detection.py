@@ -40,10 +40,12 @@ def run_detection(dev_mode, oled=None):
         cap = cv2.VideoCapture(0, cv2.CAP_V4L2)
         if cap.isOpened():
             print("Camera connected!")
+            TrapmosDisplay().show_detected("Camera Connected!")
             time.sleep(5)
             break
         else:
             print("Camera not connected. Retrying in 5 seconds...")
+            TrapmosDisplay().show_detected("Camera not connected. Retrying in 5 seconds...")
             time.sleep(5)
 
     cap.set(cv2.CAP_PROP_FPS, 5)
@@ -63,7 +65,6 @@ def run_detection(dev_mode, oled=None):
             break
 
         print("Max Mosquito Counter: ", max_mosquito_counter)
-        TrapmosDisplay().show_detected("Mosquito Detected: " + str(max_mosquito_counter))
 
         if frame_counter % skip_frames == 0:
             sharp_frame = sharpen_image(frame)
@@ -72,6 +73,7 @@ def run_detection(dev_mode, oled=None):
 
             # add fps
             cv2.putText(frame, f"FPS: {fps}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 1)
+            TrapmosDisplay().show_detected("Mosquito Detected: " + str(max_mosquito_counter) + "\n" + "FPS: {fps}")
 
             if detections:
                 lat, lon = location_manager.current_location()
