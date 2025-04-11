@@ -3,6 +3,7 @@ import threading
 from luma.core.interface.serial import i2c
 from luma.oled.device import sh1106
 from PIL import Image, ImageDraw, ImageFont
+import utils
 
 class TrapmosDisplay(threading.Thread):
     _instance = None
@@ -60,8 +61,8 @@ class TrapmosDisplay(threading.Thread):
         if isinstance(message, dict):
             detected = message.get("detected", 0)
             fps = message.get("fps", 0.0)
-            ip = message.get("ip", "N/A")
-            wifi = message.get("wifi", "Disconnected")
+            ip = message.get(utils.get_ip(), "N/A")
+            wifi = message.get(utils.get_wifi(), "Disconnected")
             now = time.strftime("%H:%M")
 
             lines = [

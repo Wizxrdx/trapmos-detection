@@ -1,9 +1,16 @@
 [Unit]
 Description=Trapmos Detection Service
-After=network.target
+After=network-online.target
+Wants=network-online.target
 
 [Service]
 Type=oneshot
-ExecStartPre=/usr/sbin/ntpdate time.google.com
+ExecStartPre=/usr/bin/sudo /usr/sbin/ntpdate time.google.com
 ExecStart=/home/trapmos/trapmos-detection/venv/bin/python /home/trapmos/trapmos-detection/app.py
 WorkingDirectory=/home/trapmos/trapmos-detection
+StandardOutput=journal
+StandardError=journal
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target
