@@ -61,8 +61,8 @@ class TrapmosDisplay(threading.Thread):
         if isinstance(message, dict):
             detected = message.get("detected", 0)
             fps = message.get("fps", 0.0)
-            ip = message.get(utils.get_ip(), "N/A")
-            wifi = message.get(utils.get_wifi(), "Disconnected")
+            ip = utils.get_ip()
+            wifi = utils.get_wifi()
             now = time.strftime("%H:%M")
 
             lines = [
