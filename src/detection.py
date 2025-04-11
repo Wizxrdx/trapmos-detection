@@ -4,7 +4,7 @@ from datetime import datetime
 from src.yoloDet import YoloONNX
 from src.location import LocationManager
 from src.firebase import DetectionUploader
-from oled import TrapmosDisplay
+from src.oled import TrapmosDisplay
 import numpy as np
 
 

@@ -5,7 +5,7 @@ DEVICE_NAME = f"TRAPMOS_{DEVICE_ID}"
 
 def main():
     from src.detection import run_detection
-    from oled import TrapmosDisplay
+    from src.oled import TrapmosDisplay
 
     TrapmosDisplay()
 
