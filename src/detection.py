@@ -33,19 +33,19 @@ def run_detection(dev_mode, oled=None):
     database_manager = DetectionUploader()
 
     print("Initializing Trapmos Display...")
-    TrapmosDisplay().show_detected("Initializing Trapmos Display...")
+    TrapmosDisplay().show_message("Initializing Trapmos Display...")
 
     # Keep checking until a camera is connected
     while True:
         cap = cv2.VideoCapture(0, cv2.CAP_V4L2)
         if cap.isOpened():
             print("Camera connected!")
-            TrapmosDisplay().show_detected("Camera Connected!")
+            TrapmosDisplay().show_message("Camera Connected!")
             time.sleep(5)
             break
         else:
             print("Camera not connected. Retrying in 5 seconds...")
-            TrapmosDisplay().show_detected("Camera not connected. Retrying in 5 seconds...")
+            TrapmosDisplay().show_message("Camera not connected. Retrying in 5 seconds...")
             time.sleep(5)
 
     cap.set(cv2.CAP_PROP_FPS, 5)
@@ -73,7 +73,7 @@ def run_detection(dev_mode, oled=None):
 
             # add fps
             cv2.putText(frame, f"FPS: {fps}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 1)
-            TrapmosDisplay().show_detected("Mosquito Detected: " + str(max_mosquito_counter) + "\n" + "FPS: {fps}")
+            TrapmosDisplay().show_message("Mosquito Detected: " + str(max_mosquito_counter) + "\n" + "FPS: {fps}")
 
             if detections:
                 lat, lon = location_manager.current_location()

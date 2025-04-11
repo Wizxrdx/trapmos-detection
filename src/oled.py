@@ -54,36 +54,46 @@ class TrapmosDisplay(threading.Thread):
         trapmos_y = self.height - trapmos_bbox[3] + 5
         self.draw.text((trapmos_x, trapmos_y), self.message, font=self.title_font, fill=255)
 
-    def _draw_message(self, text):
+    def _draw_message(self):
+        message = self.message
         self.draw.rectangle((0, 0, self.width, self.height), outline=0, fill=0)
-        max_width = self.width
-        lines = []
-        words = text.split()
-        line = ""
-        for word in words:
-            test_line = f"{line} {word}".strip()
-            bbox = self.draw.textbbox((0, 0), test_line, font=self.text_font)
-            w = bbox[2] - bbox[0]
 
-            if w <= max_width:
-                line = test_line
-            else:
-                lines.append(line)
-                line = word
-        lines.append(line)
+        if isinstance(message, dict):
+            detected = message.get("detected", 0)
+            fps = message.get("fps", 0.0)
+            ip = message.get("ip", "N/A")
+            wifi = message.get("wifi", "Disconnected")
+            now = time.strftime("%H:%M")
 
-        total_height = sum(self.draw.textbbox((0, 0), l, font=self.text_font)[3] for l in lines)
+            lines = [
+                f"Mosquitoes: {detected}",
+                f"FPS: {fps:.1f}",
+                f"WiFi: {wifi}",
+                f"IP: {ip}",
+                f"Time: {now}"
+            ]
+        else:
+            # CLI-like output, support \n
+            lines = message.split('\n')
+
+        # Draw lines centered vertically and horizontally
+        line_heights = [self.draw.textbbox((0, 0), l, font=self.text_font)[3] for l in lines]
+        total_height = sum(line_heights)
         y = (self.height - total_height) // 2
 
-        for line in lines:
-            bbox = self.draw.textbbox((0, 0), test_line, font=self.text_font)
+        for i, line in enumerate(lines):
+            bbox = self.draw.textbbox((0, 0), line, font=self.text_font)
             w = bbox[2] - bbox[0]
-            h = bbox[3] - bbox[1]
+            h = line_heights[i]
             x = (self.width - w) // 2
             self.draw.text((x, y), line, font=self.text_font, fill=255)
             y += h
 
-    def show_detected(self, msg):
+
+    def show_detected(self, count, fps):
+        self.message = {"detected": count, "fps": fps}
+
+    def show_message(self, msg):
         self.message = msg
 
     def stop(self):
