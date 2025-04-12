@@ -12,6 +12,7 @@ class YoloONNX:
         self.colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255)]
 
     def infer(self, img):
+        original_h, original_w = img.shape[:2]
         img_resized = cv2.resize(img, (320, 320))
         img_input = img_resized.astype(np.float32) / 255.0
         img_input = np.transpose(img_input, (2, 0, 1))
@@ -25,13 +26,20 @@ class YoloONNX:
         if detections.ndim == 3:
             detections = detections[0]
 
+        h_ratio = original_h / 320
+        w_ratio = original_w / 320
+
         valid_detections = []
 
         for det in detections:
             if len(det) < 7 or det[6] < self.conf_threshold:
                 continue
             x1, y1, x2, y2 = map(float, [det[1], det[2], det[3], det[4]])
-            class_id = int(det[5])
+            x1 *= w_ratio
+            y1 *= h_ratio
+            x2 *= w_ratio
+            y2 *= h_ratio
+            class_id = self.class_names[int(det[5])]
             conf = det[6]
             valid_detections.append({
                 "bbox": [x1, y1, x2, y2],
