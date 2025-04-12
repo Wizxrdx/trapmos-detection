@@ -1,6 +1,6 @@
 [Unit]
 Description=Trapmos Detection Service
-After=network-online.target
+After=network-online.target systemd-timesyncd.service time-sync.target
 Wants=network-online.target
 
 [Service]

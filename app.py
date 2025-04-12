@@ -1,10 +1,14 @@
 import argparse
 from datetime import datetime
 import time
+import os
 
 DEVICE_ID = "00000"
 DEVICE_NAME = f"TRAPMOS_{DEVICE_ID}"
 TIME_STARTED = int(time.time()) - 1640000000 + 60
+
+SLEEP_TIME = 60 * 1  # 29 minutes
+RUN_TIME = 60 * 1  # 1 minute
 
 def main():
     from src.detection import run_detection
@@ -20,4 +24,5 @@ def main():
     run_detection(args.dev)
 
 if __name__ == "__main__":
+    os.system('sudo nptdate time.google.com')
     main()

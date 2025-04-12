@@ -142,7 +142,7 @@ def run_detection(dev_mode, oled=None):
                     if cv2.waitKey(1) == ord('q'):
                         break
         
-            app.TIME_STARTED = int(time.time()) - 1640000000 + (60 * 29)
+            app.TIME_STARTED = int(time.time()) - 1640000000 + app.SLEEP_TIME
 
             ## upload here
             print("Uploading to Firebase...")
@@ -166,7 +166,7 @@ def run_detection(dev_mode, oled=None):
                 TrapmosDisplay().sleep()
                 time.sleep(5)
             
-            app.TIME_STARTED = int(time.time()) - 1640000000 + 60
+            app.TIME_STARTED = int(time.time()) - 1640000000 + app.RUN_TIME
 
     except KeyboardInterrupt:
         cap.release()
