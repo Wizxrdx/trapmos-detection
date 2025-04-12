@@ -108,7 +108,7 @@ def run_detection(dev_mode, oled=None):
                             # add to processed detections
                             processed_detections.append({
                                 "class": "Aedes Mosquito",
-                                "confidence": detection['conf'],
+                                "confidence": detection['confidence'],
                                 "box": [x1, y1, x2, y2]
                             })
 
