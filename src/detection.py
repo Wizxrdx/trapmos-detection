@@ -44,7 +44,7 @@ def run_detection(dev_mode, oled=None):
         if cap.isOpened():
             print("Camera connected!")
             # TrapmosDisplay().show_message("Camera Connected!")
-            time.sleep(5)
+            time.sleep(10)
             break
         else:
             print("Camera not connected. Retrying in 5 seconds...")
