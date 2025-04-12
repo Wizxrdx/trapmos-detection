@@ -30,11 +30,5 @@ if __name__ == "__main__":
         print("Waiting for camera...")
         time.sleep(1)
     print("Camera found!")
-    
-    os.system('v4l2-ctl -d /dev/video0 -c auto_exposure=1')
-    os.system('v4l2-ctl -d /dev/video0 -c exposure_time_absolute=18')
-    os.system('v4l2-ctl -d /dev/video0 -c focus_automatic_continuous=0')
-    os.system('v4l2-ctl -d /dev/video0 -c focus_absolute=200')
-    os.system('v4l2-ctl -d /dev/video0 -c gain=250')
 
     main()
