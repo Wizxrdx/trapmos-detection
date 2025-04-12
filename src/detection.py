@@ -101,10 +101,10 @@ def run_detection(dev_mode, oled=None):
 
                         for detection in detections:
                             # Draw bounding box
-                            x1, y1, x2, y2 = scale_coords(detection['box'], frame.shape, sharp_frame.shape)
+                            x1, y1, x2, y2 = scale_coords(detection['bbox'], frame.shape, sharp_frame.shape)
 
                             cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 1)
-                            cv2.putText(frame, f"{detection['class']} - {detection['conf']:.2f}", (x1, y1+1), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 1)
+                            cv2.putText(frame, f"{detection['class_id']} - {detection['confidence']:.2f}", (x1, y1+1), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 1)
                             # add to processed detections
                             processed_detections.append({
                                 "class": "Aedes Mosquito",
