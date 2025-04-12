@@ -1,0 +1,11 @@
+[Unit]
+Description=Camera Setting
+After=multi-user.target
+
+[Service]
+ExecStart=/home/trapmos/trapmos-detection/set_webcam.sh
+Type=oneshot
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target
