@@ -8,7 +8,7 @@ DEVICE_NAME = f"TRAPMOS_{DEVICE_ID}"
 TIME_STARTED = int(time.time()) - 1640000000 + 60
 
 SLEEP_TIME = 60 * 1  # 29 minutes
-RUN_TIME = 60 * 1  # 1 minute
+RUN_TIME = 60 * 0.2  # 1 minute
 
 def main():
     from src.detection import run_detection

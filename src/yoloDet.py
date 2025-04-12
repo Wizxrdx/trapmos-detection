@@ -8,7 +8,7 @@ class YoloONNX:
         self.session = ort.InferenceSession(model_path, providers=['CPUExecutionProvider'])
         self.input_name = self.session.get_inputs()[0].name
         self.conf_threshold = conf_threshold
-        self.class_names = ["Class0", "Class1", "Class2"]
+        self.class_names = ["Aedes Mosquito", "Aedes Mosquito", "Aedes Mosquito"]
         self.colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255)]
 
     def infer(self, img):
