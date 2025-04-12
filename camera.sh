@@ -10,3 +10,4 @@ v4l2-ctl -d /dev/video0 -c exposure_time_absolute=18
 v4l2-ctl -d /dev/video0 -c focus_automatic_continuous=0
 v4l2-ctl -d /dev/video0 -c exposure_dynamic_framerate=0
 v4l2-ctl -d /dev/video0 -c focus_absolute=200
+v4l2-ctl -d /dev/video0 -c focus_absolute=200
