@@ -25,5 +25,5 @@ def main():
 
 if __name__ == "__main__":
     os.system('sudo ntpdate time.google.com')
-    os.system('sudo bash camera.sh')
+    os.system('bash camera.sh')
     main()
