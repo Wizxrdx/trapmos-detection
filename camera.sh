@@ -5,8 +5,8 @@
 # Usage: sudo ./camera.sh
 # Set the camera to 640x480 resolution at 30 fps
 
-sudo v4l2-ctl -d /dev/video0 -c auto_exposure=1
-sudo v4l2-ctl -d /dev/video0 -c exposure_time_absolute=18
-sudo v4l2-ctl -d /dev/video0 -c focus_automatic_continuous=0
-sudo v4l2-ctl -d /dev/video0 -c exposure_dynamic_framerate=0
-sudo v4l2-ctl -d /dev/video0 -c focus_absolute=200
+v4l2-ctl -d /dev/video0 -c auto_exposure=1
+v4l2-ctl -d /dev/video0 -c exposure_time_absolute=18
+v4l2-ctl -d /dev/video0 -c focus_automatic_continuous=0
+v4l2-ctl -d /dev/video0 -c exposure_dynamic_framerate=0
+v4l2-ctl -d /dev/video0 -c focus_absolute=200
