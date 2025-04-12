@@ -43,11 +43,16 @@ def run_detection(dev_mode, oled=None):
         cap = cv2.VideoCapture(0, cv2.CAP_V4L2)
         if cap.isOpened():
             print("Camera connected!")
-            os.system('v4l2-ctl -d /dev/video0 -c gain=250')
-            os.system('v4l2-ctl -d /dev/video0 -c auto_exposure=1')
-            os.system('v4l2-ctl -d /dev/video0 -c exposure_time_absolute=18')
-            os.system('v4l2-ctl -d /dev/video0 -c focus_automatic_continuous=0')
-            os.system('v4l2-ctl -d /dev/video0 -c focus_absolute=200')
+            # os.system('v4l2-ctl -d /dev/video0 -c gain=250')
+            # os.system('v4l2-ctl -d /dev/video0 -c auto_exposure=1')
+            # os.system('v4l2-ctl -d /dev/video0 -c exposure_time_absolute=18')
+            # os.system('v4l2-ctl -d /dev/video0 -c focus_automatic_continuous=0')
+            # os.system('v4l2-ctl -d /dev/video0 -c focus_absolute=200')
+            cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
+            cap.set(cv2.CAP_PROP_EXPOSURE, 13)
+            cap.set(cv2.CAP_PROP_AUTOFOCUS, 0)
+            cap.set(cv2.CAP_PROP_FOCUS, 200)
+            cap.set(cv2.CAP_PROP_GAIN, 250)
             cap.set(cv2.CAP_PROP_FOURCC,cv2.VideoWriter_fourcc('M','J','P','G'))
             # TrapmosDisplay().show_message("Camera Connected!")
             break
@@ -59,8 +64,7 @@ def run_detection(dev_mode, oled=None):
     # cap.set(cv2.CAP_PROP_FPS, 5)
     # cap.set(cv2.CAP_PROP_AUTOFOCUS, 0)
     # cap.set(cv2.CAP_PROP_FOCUS, 200)
-    # cap.set(cv2.CAP_PROP_EXPOSURE, -6)
-    # cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*"MJPG"))
+    # cap.set(cv2.CAP_PROP_EXPOSURE, 13)
 
     frame_counter = 0
     skip_frames = 1  # Process every frame
