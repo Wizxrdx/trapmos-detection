@@ -158,8 +158,7 @@ def run_detection(dev_mode, oled=None):
                 database_manager.schedule_for_upload(image_to_upload_if_no_detected["image"], {
                             "timestamp": image_to_upload_if_no_detected["timestamp"],
                             "latitude": image_to_upload_if_no_detected["latitude"],
-                            "longitude": image_to_upload_if_no_detected["longitude"],
-                            "detections": image_to_upload_if_no_detected["detections"]
+                            "longitude": image_to_upload_if_no_detected["longitude"]
                         }, False)
         
             while app.TIME_STARTED > int(time.time() - 1640000000):
