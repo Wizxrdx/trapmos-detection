@@ -21,7 +21,7 @@ class LocationManager():
         elif self.__wifi_latest_location is not None:
             return self.__wifi_latest_location
         else:
-            return (0, 0)
+            return (0, 0, "NONE")
 
     def close(self):
         self.__gps.close()
