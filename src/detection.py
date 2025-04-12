@@ -49,7 +49,7 @@ def run_detection(dev_mode, oled=None):
             time.sleep(0.1)
             os.system('v4l2-ctl -d /dev/video0 -c exposure_absolute=18')
             os.system('v4l2-ctl -d /dev/video0 -c focus_automatic_continuous=0')
-            os.system('v4l2-ctl -d /dev/video0 -c focus_absolute=120')
+            os.system('v4l2-ctl -d /dev/video0 -c focus_absolute=150')
             os.system('v4l2-ctl -d /dev/video0 -c gain=250')
             # cap.set(cv2.CAP_PROP_FPS, 5)
             # cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
