@@ -43,6 +43,7 @@ def run_detection(dev_mode, oled=None):
         cap = cv2.VideoCapture(0, cv2.CAP_V4L2)
         if cap.isOpened():
             print("Camera connected!")
+            cap.set(cv2.CAP_PROP_FOURCC,cv2.VideoWriter_fourcc('M','J','P','G'))
             # TrapmosDisplay().show_message("Camera Connected!")
             break
         else:

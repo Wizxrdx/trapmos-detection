@@ -29,7 +29,8 @@ if __name__ == "__main__":
     while not os.path.exists('/dev/video0'):
         print("Waiting for camera...")
         time.sleep(1)
-
+    print("Camera found!")
+    
     os.system('v4l2-ctl -d /dev/video0 -c auto_exposure=1')
     os.system('v4l2-ctl -d /dev/video0 -c exposure_time_absolute=18')
     os.system('v4l2-ctl -d /dev/video0 -c focus_automatic_continuous=0')
