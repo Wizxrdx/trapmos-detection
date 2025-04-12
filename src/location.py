@@ -10,10 +10,10 @@ class LocationManager():
         self.__wifi_latest_location = None
 
     def set_gps_location(self, lat, lon):
-        self.__gps_latest_location = (lat, lon)
+        self.__gps_latest_location = (lat, lon, "GPS")
 
     def set_wifi_location(self, lat, lon):
-        self.__wifi_latest_location = (lat, lon)
+        self.__wifi_latest_location = (lat, lon, "WIFI")
 
     def current_location(self):
         if self.__gps_latest_location is not None:

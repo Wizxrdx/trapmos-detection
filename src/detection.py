@@ -52,7 +52,7 @@ def run_detection(dev_mode, oled=None):
 
     cap.set(cv2.CAP_PROP_FPS, 5)
     cap.set(cv2.CAP_PROP_AUTOFOCUS, 0)
-    cap.set(cv2.CAP_PROP_FOCUS, 200)
+    cap.set(cv2.CAP_PROP_FOCUS, 190)
     cap.set(cv2.CAP_PROP_EXPOSURE, -6)
     cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*"MJPG"))
 
@@ -77,7 +77,7 @@ def run_detection(dev_mode, oled=None):
                     sharp_frame = sharpen_image(frame)
                     detections, t = model.infer(sharp_frame)
                     fps = round(1 / t, 2)
-                    lat, lon = location_manager.current_location()
+                    lat, lon, gps_type = location_manager.current_location()
                     current_time = datetime.now()
 
                     # add fps
@@ -115,8 +115,9 @@ def run_detection(dev_mode, oled=None):
                         print("Processed Detections: ", len(processed_detections))
 
                         # add to to be sent to firebase if it exceeds the max mosquito counter
-                        if len(processed_detections) > max_mosquito_counter:
+                        if len(processed_detections) >= max_mosquito_counter:
                             print(f"Detected mosquito at {lat}, {lon} at {current_time.strftime('%Y-%m-%d %H:%M:%S')}.")
+                            print("Location type used: ", gps_type)
                             max_mosquito_counter = len(processed_detections)
 
                             # Encode image as JPEG
