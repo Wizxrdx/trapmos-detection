@@ -5,6 +5,7 @@ Wants=network-online.target
 
 [Service]
 Type=oneshot
+Environment=PYTHONUNBUFFERED=1
 ExecStartPre=/usr/bin/sudo /usr/sbin/ntpdate time.google.com
 ExecStart=/home/trapmos/trapmos-detection/venv/bin/python /home/trapmos/trapmos-detection/app.py
 WorkingDirectory=/home/trapmos/trapmos-detection
