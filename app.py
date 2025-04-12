@@ -12,9 +12,9 @@ RUN_TIME = 60 * 1  # 1 minute
 
 def main():
     from src.detection import run_detection
-    from src.oled import TrapmosDisplay
+    # from src.oled import TrapmosDisplay
 
-    TrapmosDisplay()
+    # TrapmosDisplay()
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-dev", action="store_true", help="Run in development mode")
