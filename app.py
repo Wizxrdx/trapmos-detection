@@ -4,7 +4,7 @@ import time
 import os
 
 SLEEP_TIME = 60 * 1  # 29 minutes
-RUN_TIME = 60 * 0.2  # 1 minute
+RUN_TIME = 60 * 0.5  # 1 minute
 
 DEVICE_ID = "00000"
 DEVICE_NAME = f"TRAPMOS_{DEVICE_ID}"
