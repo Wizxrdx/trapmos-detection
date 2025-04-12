@@ -24,7 +24,7 @@ def scale_coords(coords, orig_shape, small_shape):
 
 def run_detection(dev_mode, oled=None):
     # Initialize YOLO model
-    model = YoloONNX("trapmos.onnx", conf_thres=0.25)
+    model = YoloONNX("trapmos.onnx", conf_threshold=0.25)
 
     # Initialize location manager
     print("Initializing location manager...")
