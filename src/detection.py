@@ -44,11 +44,11 @@ def run_detection(dev_mode, oled=None):
         if cap.isOpened():
             print("Camera connected!")
             cap.set(cv2.CAP_PROP_FOURCC,cv2.VideoWriter_fourcc('M','J','P','G'))
+            os.system('v4l2-ctl -d /dev/video0 -c gain=250')
             os.system('v4l2-ctl -d /dev/video0 -c auto_exposure=1')
             os.system('v4l2-ctl -d /dev/video0 -c exposure_time_absolute=18')
             os.system('v4l2-ctl -d /dev/video0 -c focus_automatic_continuous=0')
             os.system('v4l2-ctl -d /dev/video0 -c focus_absolute=200')
-            os.system('v4l2-ctl -d /dev/video0 -c gain=250')
             # TrapmosDisplay().show_message("Camera Connected!")
             break
         else:
