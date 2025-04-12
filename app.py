@@ -25,5 +25,13 @@ def main():
 
 if __name__ == "__main__":
     os.system('sudo ntpdate time.google.com')
-    os.system('bash camera.sh')
+    time.sleep(1)
+    os.system('v4l2-ctl -d /dev/video0 -c auto_exposure=1')
+    time.sleep(1)
+    os.system('v4l2-ctl -d /dev/video0 -c exposure_time_absolute=18')
+    time.sleep(1)
+    os.system('v4l2-ctl -d /dev/video0 -c focus_automatic_continuous=0')
+    time.sleep(1)
+    os.system('v4l2-ctl -d /dev/video0 -c focus_absolute=200')
+    time.sleep(1)
     main()
