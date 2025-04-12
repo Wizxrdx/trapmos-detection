@@ -50,11 +50,11 @@ def run_detection(dev_mode, oled=None):
             # TrapmosDisplay().show_message("Camera not connected. Retrying in 5 seconds...")
             time.sleep(5)
 
-    cap.set(cv2.CAP_PROP_FPS, 5)
-    cap.set(cv2.CAP_PROP_AUTOFOCUS, 0)
-    cap.set(cv2.CAP_PROP_FOCUS, 200)
-    cap.set(cv2.CAP_PROP_EXPOSURE, -6)
-    cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*"MJPG"))
+    # cap.set(cv2.CAP_PROP_FPS, 5)
+    # cap.set(cv2.CAP_PROP_AUTOFOCUS, 0)
+    # cap.set(cv2.CAP_PROP_FOCUS, 200)
+    # cap.set(cv2.CAP_PROP_EXPOSURE, -6)
+    # cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*"MJPG"))
 
     frame_counter = 0
     skip_frames = 1  # Process every frame
@@ -103,7 +103,7 @@ def run_detection(dev_mode, oled=None):
                             # Draw bounding box
                             x1, y1, x2, y2 = detection['bbox']
                             x1, y1, x2, y2 = map(int, [x1, y1, x2, y2])
-                            
+
                             cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 1)
                             cv2.putText(frame, f"{detection['class_id']} - {detection['confidence']:.2f}", (x1, y1+1), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 1)
                             # add to processed detections
