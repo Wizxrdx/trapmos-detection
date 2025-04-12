@@ -24,5 +24,5 @@ def main():
     run_detection(args.dev)
 
 if __name__ == "__main__":
-    os.system('sudo nptdate time.google.com')
+    os.system('sudo ntpdate time.google.com')
     main()
