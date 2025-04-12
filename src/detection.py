@@ -50,6 +50,8 @@ def run_detection(dev_mode, oled=None):
             # TrapmosDisplay().show_message("Camera not connected. Retrying in 5 seconds...")
             time.sleep(5)
 
+    cap.set(cv2.CAP_PROP_FPS, 5)
+    
     frame_counter = 0
     skip_frames = 1  # Process every frame
 

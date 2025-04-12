@@ -5,6 +5,8 @@ After=multi-user.target
 [Service]
 ExecStart=/home/trapmos/trapmos-detection/set_webcam.sh
 Type=oneshot
+StandardOutput=journal
+StandardError=journal
 RemainAfterExit=true
 
 [Install]
