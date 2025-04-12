@@ -133,7 +133,7 @@ class DetectionUploader:
 
     def schedule_for_upload(self, image, data, detected):
         """Schedules an image for upload without blocking."""
-        file_path = self.__generate_name(data)
+        file_path = self.__generate_name(data, detected)
         self.__queue.put_nowait((image, data, file_path, detected))
 
     async def wait_until_done(self):
