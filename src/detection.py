@@ -51,7 +51,7 @@ def run_detection(dev_mode, oled=None):
             cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
             cap.set(cv2.CAP_PROP_EXPOSURE, 13)
             cap.set(cv2.CAP_PROP_AUTOFOCUS, 0)
-            cap.set(cv2.CAP_PROP_FOCUS, 0)
+            cap.set(cv2.CAP_PROP_FOCUS, 200)
             cap.set(cv2.CAP_PROP_GAIN, 250)
             cap.set(cv2.CAP_PROP_FOURCC,cv2.VideoWriter_fourcc('M','J','P','G'))
             # TrapmosDisplay().show_message("Camera Connected!")
