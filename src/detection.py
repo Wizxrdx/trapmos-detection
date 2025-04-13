@@ -1,8 +1,6 @@
 import cv2
-import os
 import time
 from datetime import datetime
-import numpy as np
 
 from src.yoloDet import YoloONNX
 from src.location import LocationManager
@@ -11,18 +9,6 @@ from src.firebase import DetectionUploader
 from utils import sharpen_image, focus_on_circle, snip_sides
 import app
 
-
-def sharpen_image(image):
-    kernel = np.array([[0, -2, 0],
-                       [-2, 9, -2],
-                       [0, -2, 0]])
-    return cv2.filter2D(image, -1, kernel)
-
-def scale_coords(coords, orig_shape, small_shape):
-    x1, y1, x2, y2 = coords
-    scale_x = orig_shape[1] / small_shape[1]
-    scale_y = orig_shape[0] / small_shape[0]
-    return int(x1 * scale_x), int(y1 * scale_y), int(x2 * scale_x), int(y2 * scale_y)
 
 def run_detection(dev_mode, oled=None):
     # Initialize YOLO model
@@ -167,7 +153,7 @@ def run_detection(dev_mode, oled=None):
                             "latitude": image_to_upload_if_no_detected["latitude"],
                             "longitude": image_to_upload_if_no_detected["longitude"]
                         }, False)
-        
+
             while app.TIME_STARTED > int(time.time() - 1640000000):
                 print("Sleeping for 29 minutes...")
                 # TrapmosDisplay().sleep()
