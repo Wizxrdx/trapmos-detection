@@ -6,7 +6,7 @@ from src.yoloDet import YoloONNX
 from src.location import LocationManager
 from src.firebase import DetectionUploader
 # from src.oled import TrapmosDisplay
-from utils import sharpen_image, focus_on_circle, snip_sides
+from src.utils import sharpen_image, focus_on_circle, snip_sides
 import app
 
 
