@@ -143,13 +143,11 @@ def run_detection(dev_mode, oled=None):
                 frame_counter += 1
 
                 if dev_mode:
-                    cv2.namedWindow("Output", cv2.WINDOW_NORMAL)
-                    cv2.resizeWindow("Output", 320, 240)
                     cv2.imshow("Output", frame)
 
                     if cv2.waitKey(1) == ord('q'):
                         break
-        
+
             app.TIME_STARTED = int(time.time()) - 1640000000 + app.SLEEP_TIME
 
             ## upload here
@@ -173,7 +171,7 @@ def run_detection(dev_mode, oled=None):
                 print("Sleeping for 29 minutes...")
                 # TrapmosDisplay().sleep()
                 time.sleep(5)
-            
+
             app.TIME_STARTED = int(time.time()) - 1640000000 + app.RUN_TIME
 
     except KeyboardInterrupt:
