@@ -43,34 +43,17 @@ def run_detection(dev_mode, oled=None):
         cap = cv2.VideoCapture(0, cv2.CAP_V4L2)
         if cap.isOpened():
             print("Camera connected!")
-            # cap.set(cv2.CAP_PROP_FOURCC,cv2.VideoWriter_fourcc('M','J','P','G'))
-            # cap.set(cv2.CAP_PROP_FPS, 5)
-            # cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-            # cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
-            # time.sleep(2)
-            # os.system('v4l2-ctl -d /dev/video0 -c auto_exposure=1')
-            # time.sleep(0.1)
-            # os.system('v4l2-ctl -d /dev/video0 -c exposure_time_absolute=18')
-            # os.system('v4l2-ctl -d /dev/video0 -c focus_automatic_continuous=0')
-            # time.sleep(0.5)
-            # os.system('v4l2-ctl -d /dev/video0 -c focus_absolute=220')
-            # os.system('v4l2-ctl -d /dev/video0 -c gain=250')
-            # cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
-            # cap.set(cv2.CAP_PROP_EXPOSURE, 13)
-            # cap.set(cv2.CAP_PROP_AUTOFOCUS, 0)
-            # cap.set(cv2.CAP_PROP_FOCUS, 200)
-            # cap.set(cv2.CAP_PROP_GAIN, 250)
-            # TrapmosDisplay().show_message("Camera Connected!")
             break
         else:
             print("Camera not connected. Retrying in 5 seconds...")
             # TrapmosDisplay().show_message("Camera not connected. Retrying in 5 seconds...")
             time.sleep(5)
 
-    cap.set(cv2.CAP_PROP_FPS, 5)
+    cap.set(cv2.CAP_PROP_FPS, 1)
     cap.set(cv2.CAP_PROP_AUTOFOCUS, 0)
-    cap.set(cv2.CAP_PROP_FOCUS, 200)
-    cap.set(cv2.CAP_PROP_EXPOSURE, -6)
+    cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
+    cap.set(cv2.CAP_PROP_ZOOM, 100)
+    cap.set(cv2.CAP_PROP_PAN, -5500)
     cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*"MJPG"))
 
     frame_counter = 0
@@ -90,7 +73,13 @@ def run_detection(dev_mode, oled=None):
 
                 print("Max Mosquito Counter: ", max_mosquito_counter)
 
+                cap.set(cv2.CAP_PROP_FOCUS, 160)
+                cap.set(cv2.CAP_PROP_GAIN, 100)
+                cap.set(cv2.CAP_PROP_EXPOSURE, 50)
+
                 if frame_counter % skip_frames == 0:
+                    frame = focus_on_circle(frame, 300)
+                    frame = snip_sides(frame)
                     sharp_frame = sharpen_image(frame)
                     detections, t = model.infer(sharp_frame)
                     fps = round(1 / t, 2)
