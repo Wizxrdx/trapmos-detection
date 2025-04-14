@@ -155,8 +155,8 @@ class DetectionUploader:
                 YYYYMMDD_HHMMSS_lat_lon_uniqueID.jpg
         """
         timestamp = data["timestamp"].strftime("%Y%m%d_%H%M%S")
-        lat = round(data["latitude"], 4)
-        lon = round(data["longitude"], 4)
+        lat = round(data["latitude"], 6)
+        lon = round(data["longitude"], 6)
         unique_id = uuid.uuid4().hex[:12]
         if detected:
             return f"{DEVICE_NAME}/{DEVICE_ID}_{timestamp}_{lat}_{lon}_{unique_id}.jpg"
