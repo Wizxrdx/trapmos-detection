@@ -12,7 +12,7 @@ import app
 
 def run_detection(dev_mode, oled=None):
     # Initialize YOLO model
-    model = YoloONNX("trapmos.onnx", conf_threshold=0.6)
+    model = YoloONNX("trapmos.onnx", conf_threshold=0.7)
 
     # Initialize location manager
     print("Initializing location manager...")
@@ -62,10 +62,10 @@ def run_detection(dev_mode, oled=None):
 
                 cap.set(cv2.CAP_PROP_FOCUS, 160)
                 cap.set(cv2.CAP_PROP_GAIN, 100)
-                cap.set(cv2.CAP_PROP_EXPOSURE, 50)
+                cap.set(cv2.CAP_PROP_EXPOSURE, 43)
 
                 if frame_counter % skip_frames == 0:
-                    frame = focus_on_circle(frame, 300)
+                    frame = focus_on_circle(frame, 280)
                     frame = snip_sides(frame)
                     sharp_frame = sharpen_image(frame)
                     detections, t = model.infer(sharp_frame)
