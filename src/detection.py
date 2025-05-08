@@ -61,9 +61,13 @@ def run_detection(dev_mode, oled=None):
 
                 print("Max Mosquito Counter: ", max_mosquito_counter)
 
+                # cap.set(cv2.CAP_PROP_FOCUS, 160)
+                # cap.set(cv2.CAP_PROP_GAIN, 100)
+                # cap.set(cv2.CAP_PROP_EXPOSURE, 50)
+
                 cap.set(cv2.CAP_PROP_FOCUS, 160)
-                cap.set(cv2.CAP_PROP_GAIN, 100)
-                cap.set(cv2.CAP_PROP_EXPOSURE, 50)
+                cap.set(cv2.CAP_PROP_GAIN, 80)
+                cap.set(cv2.CAP_PROP_EXPOSURE, 40)
 
                 if frame_counter % skip_frames == 0:
                     frame = focus_on_circle(frame, 280)
