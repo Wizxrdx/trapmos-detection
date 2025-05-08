@@ -66,7 +66,7 @@ def run_detection(dev_mode, oled=None):
                 # cap.set(cv2.CAP_PROP_EXPOSURE, 50)
 
                 cap.set(cv2.CAP_PROP_FOCUS, 160)
-                cap.set(cv2.CAP_PROP_GAIN, 50)
+                cap.set(cv2.CAP_PROP_GAIN, 40)
                 cap.set(cv2.CAP_PROP_EXPOSURE, 40)
 
                 if frame_counter % skip_frames == 0:
