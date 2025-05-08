@@ -22,6 +22,14 @@ class LocationManager():
             return self.__wifi_latest_location
         else:
             return (0, 0, "NONE")
+        
+    def get_type(self):
+        if self.__gps_latest_location is not None:
+            return "GPS"
+        elif self.__wifi_latest_location is not None:
+            return "WIFI"
+        else:
+            return "NONE"
 
     def close(self):
         self.__gps.close()

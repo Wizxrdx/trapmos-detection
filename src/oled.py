@@ -41,6 +41,9 @@ class TrapmosDisplay(threading.Thread):
             self.disp.display(self.image)
             time.sleep(1)
 
+    def set_location_manager(self, location_manager):
+        self.location_manager = location_manager
+
     def _draw_startup(self):
         team_text = "TEAM 40"
         team_bbox = self.draw.textbbox((0, 0), team_text, font=self.subtitle_font)
@@ -61,7 +64,7 @@ class TrapmosDisplay(threading.Thread):
         if isinstance(message, dict):
             detected = message.get("detected", 0)
             fps = message.get("fps", 0.0)
-            ip = utils.get_ip()
+            gps = "Running" if self.location_manager.get_type() == "GPS" else "Starting..."
             wifi = utils.get_wifi()
             now = time.strftime("%H:%M")
 
@@ -69,7 +72,7 @@ class TrapmosDisplay(threading.Thread):
                 f"Mosquitoes: {detected}",
                 f"FPS: {fps:.1f}",
                 f"WiFi: {wifi}",
-                f"IP: {ip}",
+                f"GPS Status: {gps}",
                 f"Time: {now}"
             ]
         else:

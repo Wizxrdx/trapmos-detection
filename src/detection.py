@@ -23,6 +23,7 @@ def run_detection(dev_mode, oled=None):
     database_manager = DetectionUploader()
 
     print("Initializing Trapmos Display...")
+    TrapmosDisplay().set_location_manager(location_manager)
     TrapmosDisplay().show_message("Initializing Trapmos Display...")
 
     # Keep checking until a camera is connected
