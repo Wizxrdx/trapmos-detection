@@ -205,12 +205,14 @@ class DetectionUploader:
             }
 
 if __name__ == "__main__":
-    import cv2
+    from PIL import Image
+    import io
+    import time
 
     data = {
         "timestamp": datetime.now(),
-        "latitude": 14.1234,
-        "longitude": 121.1234,
+        "latitude": 14.745115,
+        "longitude": 121.130140,
         "detections": [
             {
                 "class": "Aedes aegypti",
@@ -226,10 +228,15 @@ if __name__ == "__main__":
     }
 
     firebase = DetectionUploader()
-    frame = cv2.imread("yolov7/images/mosquito.jpg")
+    frame = Image.open("yolov7/images/mosquito.jpg")
     # Encode image as JPEG
-    _, buffer = cv2.imencode(".jpg", frame)
+    # _, buffer = cv2.imencode(".jpg", frame)
+    frame_bytes = io.BytesIO()
+    frame.save(frame_bytes, format='JPEG')
 
     # Convert to bytes
-    image_bytes = buffer.tobytes()
+    # image_bytes = buffer.tobytes()
+    image_bytes = frame_bytes.getvalue()
     firebase.schedule_for_upload(image_bytes, data, True)
+    time.sleep(5)
+    firebase.shutdown()
