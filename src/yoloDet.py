@@ -35,6 +35,7 @@ class YoloONNX:
         for det in detections:
             # Skip Culex Mosquito detections
             if int(det[5]) == 0:
+                print(self.class_names[int(det[5])])
                 continue
 
             if len(det) < 7 or det[6] < self.conf_threshold:
