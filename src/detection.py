@@ -68,6 +68,7 @@ def run_detection(dev_mode, oled=None):
                 if frame_counter % skip_frames == 0:
                     frame = focus_on_circle(frame, 280)
                     frame = snip_sides(frame)
+                    orig_frame = frame.copy()
                     sharp_frame = sharpen_image(frame)
                     detections, t = model.infer(sharp_frame)
                     fps = round(1 / t, 2)
@@ -149,6 +150,7 @@ def run_detection(dev_mode, oled=None):
                             "longitude": image_to_upload["longitude"],
                             "detections": image_to_upload["detections"]
                         }, True)
+                cv2.imwrite(f"{lat}_{lon}_{current_time.strftime('%Y-%m-%d %H:%M:%S')}.jpg", orig_frame)
             else:
                 database_manager.schedule_for_upload(image_to_upload_if_no_detected["image"], {
                             "timestamp": image_to_upload_if_no_detected["timestamp"],
