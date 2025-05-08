@@ -12,7 +12,7 @@ import app
 
 def run_detection(dev_mode, oled=None):
     # Initialize YOLO model
-    model = YoloONNX("trapmos.onnx", conf_threshold=0.3)
+    model = YoloONNX("trapmos.onnx", conf_threshold=0.7)
 
     # Initialize location manager
     print("Initializing location manager...")
