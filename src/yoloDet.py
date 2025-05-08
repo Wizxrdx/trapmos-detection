@@ -34,9 +34,9 @@ class YoloONNX:
 
         for det in detections:
             # Skip Culex Mosquito detections
-            if det[5] == 0:
+            if int(det[5]) == 0:
                 continue
-            
+
             if len(det) < 7 or det[6] < self.conf_threshold:
                 continue
             x1, y1, x2, y2 = map(float, [det[1], det[2], det[3], det[4]])
