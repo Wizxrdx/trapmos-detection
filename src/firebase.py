@@ -157,11 +157,11 @@ class DetectionUploader:
         timestamp = data["timestamp"].strftime("%Y%m%d_%H%M%S")
         lat = round(data["latitude"], 6)
         lon = round(data["longitude"], 6)
-        unique_id = uuid.uuid4().hex[:12]
+        unique_id = uuid.uuid4().hex[:16]
         if detected:
-            return f"{DEVICE_NAME}/{DEVICE_ID}_{timestamp}_{lat}_{lon}_{unique_id}.jpg"
+            return f"{DEVICE_NAME}/{unique_id}.jpg"
         else:
-            return f"{DEVICE_NAME}_no_aedes/{DEVICE_ID}_{timestamp}_{lat}_{lon}_{unique_id}_no_detected.jpg"
+            return f"{DEVICE_NAME}_no_aedes/{unique_id}_no_detected.jpg"
 
     def __to_firestore_json(self, data, file_name, detected):
         """Converts the data to Firestore JSON format."""
