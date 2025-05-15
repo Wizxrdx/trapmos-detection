@@ -56,3 +56,15 @@ class YoloONNX:
             })
 
         return valid_detections, elapsed
+
+
+if __name__ == "__main__":
+    model_path = "yolo.onnx"
+    yolo_detector = YoloONNX(model_path)
+
+    # Example usage
+    img = cv2.imread("yolov7\images\mosquito.jpg")
+    detections, elapsed_time = yolo_detector.infer(img)
+    print(f"Detections: {detections}")
+    print(f"Inference time: {elapsed_time:.4f} seconds")
+
