@@ -3,7 +3,7 @@ from datetime import datetime
 import time
 import os
 
-SLEEP_TIME = 60 * 1  # 29 minutes
+SLEEP_TIME = 60 * 29.5  # 29 minutes
 RUN_TIME = 60 * 0.5  # 1 minute
 
 DEVICE_ID = "00000"

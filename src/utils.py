@@ -42,9 +42,9 @@ def snip_sides(img, left_crop=50, right_crop=50):
     return cropped
 
 def sharpen_image(image):
-    kernel = np.array([[0, -2, 0],
-                       [-2, 9, -2],
-                       [0, -2, 0]])
+    kernel = np.array([[0, -3, 0],
+                       [-3, 11, -3],
+                       [0, -3, 0]])
     return cv2.filter2D(image, -1, kernel)
 
 def scale_coords(coords, orig_shape, small_shape):
