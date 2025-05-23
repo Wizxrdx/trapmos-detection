@@ -83,7 +83,9 @@ def run_detection(dev_mode, oled=None):
                     TrapmosDisplay().show_detected(max_mosquito_counter, fps)
 
                     # Encode image as JPEG
-                    _, buffer = cv2.imencode(".jpg", frame)
+                    no_detected_frame = frame.copy()
+                    cv2.putText(no_detected_frame, f"NO AEDES DETECTED", (630, 200), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 1)
+                    _, buffer = cv2.imencode(".jpg", no_detected_frame)
 
                     # Convert to bytes
                     image_bytes = buffer.tobytes()
