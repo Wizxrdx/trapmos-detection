@@ -44,6 +44,10 @@ def run_detection(dev_mode, oled=None):
     cap.set(cv2.CAP_PROP_PAN, -5500)
     cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*"MJPG"))
 
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    font_scale = 1
+    thickness = 2
+
     frame_counter = 0
     skip_frames = 1  # Process every frame
 
@@ -83,8 +87,12 @@ def run_detection(dev_mode, oled=None):
                     TrapmosDisplay().show_detected(max_mosquito_counter, fps)
 
                     # Encode image as JPEG
+                    text = "No Aedes Mosquito Detected"
                     no_detected_frame = frame.copy()
-                    cv2.putText(no_detected_frame, f"NO AEDES DETECTED", (630, 200), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 1)
+                    (text_width, text_height), baseline = cv2.getTextSize(text, font, font_scale, thickness)
+                    x = (no_detected_frame.shape[1] - text_width) // 2
+                    y = no_detected_frame.shape[0] - 10 - baseline
+                    cv2.putText(no_detected_frame, text, (x, y), font, font_scale, (0, 255, 0), thickness)
                     _, buffer = cv2.imencode(".jpg", no_detected_frame)
 
                     # Convert to bytes
@@ -123,6 +131,12 @@ def run_detection(dev_mode, oled=None):
                             max_mosquito_counter = len(processed_detections)
 
                             # Encode image as JPEG
+                            # Center horizontally
+                            
+                            (text_width, text_height), baseline = cv2.getTextSize(text, font, font_scale, thickness)
+                            x = (frame.shape[1] - text_width) // 2
+                            y = frame.shape[0] - 10 - baseline
+                            cv2.putText(frame, text, (x, y), font, font_scale, (0, 0, 255), thickness)
                             _, buffer = cv2.imencode(".jpg", frame)
 
                             # Convert to bytes
