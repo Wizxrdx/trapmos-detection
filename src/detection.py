@@ -92,7 +92,7 @@ def run_detection(dev_mode, oled=None):
                     (text_width, text_height), baseline = cv2.getTextSize(text, font, font_scale, thickness)
                     x = (no_detected_frame.shape[1] - text_width) // 2
                     y = no_detected_frame.shape[0] - 10 - baseline
-                    cv2.putText(no_detected_frame, text, (x, y), font, font_scale, (0, 255, 0), thickness)
+                    cv2.putText(no_detected_frame, text, (x, y), font, font_scale, (0, 255, 0), thickness, cv2.LINE_AA)
                     _, buffer = cv2.imencode(".jpg", no_detected_frame)
 
                     # Convert to bytes
@@ -136,7 +136,7 @@ def run_detection(dev_mode, oled=None):
                             (text_width, text_height), baseline = cv2.getTextSize(text, font, font_scale, thickness)
                             x = (frame.shape[1] - text_width) // 2
                             y = frame.shape[0] - 10 - baseline
-                            cv2.putText(frame, text, (x, y), font, font_scale, (0, 0, 255), thickness)
+                            cv2.putText(frame, text, (x, y), font, font_scale, (0, 0, 255), thickness, cv2.LINE_AA)
                             _, buffer = cv2.imencode(".jpg", frame)
 
                             # Convert to bytes
