@@ -112,9 +112,9 @@ def run_detection(dev_mode, oled=None):
                             x1, y1, x2, y2 = detection['bbox']
                             x1, y1, x2, y2 = map(int, [x1, y1, x2, y2])
 
-                            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 1.5)
-                            cv2.putText(frame, f"{detection['class_id']}", (x1, y1+20), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 1.5)
-                            cv2.putText(frame, f"{detection['confidence']:.2f}", (x1, y1+1), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 1.5)
+                            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2)
+                            cv2.putText(frame, f"{detection['class_id']}", (x1, y1+20), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+                            cv2.putText(frame, f"{detection['confidence']:.2f}", (x1, y1+1), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
                             # add to processed detections
                             processed_detections.append({
                                 "class": detection['class_id'],
