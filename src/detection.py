@@ -83,7 +83,7 @@ def run_detection(dev_mode, oled=None):
                     current_time = datetime.now()
 
                     # add fps
-                    cv2.putText(frame, f"FPS: {fps}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 1)
+                    cv2.putText(frame, f"FPS: {fps}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
                     TrapmosDisplay().show_detected(max_mosquito_counter, fps)
 
                     # Encode image as JPEG
@@ -112,9 +112,9 @@ def run_detection(dev_mode, oled=None):
                             x1, y1, x2, y2 = detection['bbox']
                             x1, y1, x2, y2 = map(int, [x1, y1, x2, y2])
 
-                            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2)
-                            cv2.putText(frame, f"{detection['class_id']}", (x1, y1+20), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-                            cv2.putText(frame, f"{detection['confidence']:.2f}", (x1, y1+1), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+                            cv2.rectangle(frame, (x1, y1), (x2, y2), (255, 0, 0), 2)
+                            cv2.putText(frame, f"{detection['class_id']}", (x1, y1+20), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
+                            cv2.putText(frame, f"{detection['confidence']:.2f}", (x1, y1+1), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
                             # add to processed detections
                             processed_detections.append({
                                 "class": detection['class_id'],
@@ -132,7 +132,7 @@ def run_detection(dev_mode, oled=None):
 
                             # Encode image as JPEG
                             # Center horizontally
-                            
+                            text = "Aedes Mosquitoes Detected"
                             (text_width, text_height), baseline = cv2.getTextSize(text, font, font_scale, thickness)
                             x = (frame.shape[1] - text_width) // 2
                             y = frame.shape[0] - 10 - baseline
